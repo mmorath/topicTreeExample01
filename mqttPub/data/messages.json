@@ -1,0 +1,244 @@
+{
+  "iiot_box_alive": [
+      {
+          "topic": "iiot_box_alive/xHeartbeat",
+          "payload": {
+              "variable": "xHeartbeat",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      }
+  ],
+  "iiot_box_ouputs": [
+      {
+          "topic": "iiot_box_ouputs/xPushButtonIndicatorB",
+          "payload": {
+              "variable": "xPushButtonIndicatorB",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xPushButtonIndicatorG",
+          "payload": {
+              "variable": "xPushButtonIndicatorG",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xPushButtonIndicatorR",
+          "payload": {
+              "variable": "xPushButtonIndicatorR",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xSignalLampBuzzer",
+          "payload": {
+              "variable": "xSignalLampBuzzer",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xSignalLampSegment01",
+          "payload": {
+              "variable": "xSignalLampSegment01",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xSignalLampSegment02",
+          "payload": {
+              "variable": "xSignalLampSegment02",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xSignalLampSegment03",
+          "payload": {
+              "variable": "xSignalLampSegment03",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_ouputs/xSignalLampSegment04",
+          "payload": {
+              "variable": "xSignalLampSegment04",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      }
+  ],
+  "iiot_box_inputs": [
+      {
+          "topic": "iiot_box_inputs/xDoorSwitch",
+          "payload": {
+              "variable": "xDoorSwitch",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xEmergencyStop",
+          "payload": {
+              "variable": "xEmergencyStop",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xKeyLockPos1",
+          "payload": {
+              "variable": "xKeyLockPos1",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xKeyLockPos2",
+          "payload": {
+              "variable": "xKeyLockPos2",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xPowerSupply24VOK",
+          "payload": {
+              "variable": "xPowerSupply24VOK",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xPowerSupply48VOK",
+          "payload": {
+              "variable": "xPowerSupply48VOK",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xServiceButton",
+          "payload": {
+              "variable": "xServiceButton",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "iiot_box_inputs/xVoltagePresent",
+          "payload": {
+              "variable": "xVoltagePresent",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      }
+  ],
+  "mde_signals": [
+      {
+          "topic": "mde_signals/xAutomaticSwitchOff",
+          "payload": {
+              "variable": "xAutomaticSwitchOff",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xMainCircuitSwitchOn",
+          "payload": {
+              "variable": "xMainCircuitSwitchOn",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xProgramStop",
+          "payload": {
+              "variable": "xProgramStop",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xLaserActive",
+          "payload": {
+              "variable": "xLaserActive",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xImpulse",
+          "payload": {
+              "variable": "xImpulse",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xSumError",
+          "payload": {
+              "variable": "xSumError",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xProductionTime",
+          "payload": {
+              "variable": "xProductionTime",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      },
+      {
+          "topic": "mde_signals/xTargetCountReached",
+          "payload": {
+              "variable": "xTargetCountReached",
+              "value": "randint(0,1)",
+              "unit": "boolean"
+          }
+      }
+  ],
+  "plc_stats": [
+      {
+          "topic": "plc_stats/sActualHostName",
+          "payload": {
+              "variable": "sActualHostName",
+              "value": "randint(0,1)",
+              "unit": "string"
+          }
+      },
+      {
+        "topic": "plc_stats/sPLCVersion",
+        "payload": {
+            "variable": "sPLCVersion",
+            "value": "randint(0,1)",
+            "unit": "string"
+        }
+    },
+    {
+        "topic": "plc_stats/sPLCName",
+        "payload": {
+            "variable": "sPLCName",
+            "value": "randint(0,1)",
+            "unit": "string"
+        }
+    },
+    {
+        "topic": "plc_stats/sPLCSerialNumber",
+        "payload": {
+            "variable": "sPLCSerialNumber",
+            "value": "randint(0,1)",
+            "unit": "string"
+        }
+    }
+]
+}

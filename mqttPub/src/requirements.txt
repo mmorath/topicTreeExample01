@@ -1,0 +1,5 @@
+paho-mqtt==1.5.1
+pyserial==3.5
+six==1.16.0
+requests==2.26.0
+pyusb==1.2.1

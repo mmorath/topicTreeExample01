@@ -1,0 +1,15 @@
+[
+    {
+      "topic": "emt/lhb/halle2/assembly-line/torque-machine/mqtt_publisher-01/iiot_box_alive/xheartbeat",
+      "qos": 1
+    },
+    {
+      "topic": "emt/lhb/halle2/assembly-line/torque-machine/mqtt_publisher-01/iiot_box_inputs/xdoorswitch",
+      "qos": 1
+    },
+    {
+      "topic": "emt/lhb/halle2/assembly-line/torque-machine/mqtt_publisher-01/mde_signals/xautomaticswitchoff",
+      "qos": 1
+    }
+  ]
+  
