@@ -25,7 +25,7 @@ def main():
     logger = configure_logging_from_file()
 
     # Read configuration from config.json
-    config_file_path = '/app/data/config.json'  # Update with your config file path
+    config_file_path = '/mqttPub/data/config.json'  # Update with your config file path
     config_data = read_configuration(config_file_path)
 
     # Check if the configuration file can be read, else quit
@@ -58,7 +58,7 @@ def main():
     mqtt_client = MQTTClient(MQTT_HOST, MQTT_PORT, MQTT_ENABLE_SSL, MQTT_USER, MQTT_PASSWORD)
 
     # Read variables from variables.json before entering the while loop
-    variables_json_path = '/app/data/messages.json'  # Update with your variables JSON file path
+    variables_json_path = '/mqttPub/data/messages.json'  # Update with your variables JSON file path
     with open(variables_json_path, 'r') as f:
         variables_json = json.load(f)
 
