@@ -16,7 +16,7 @@ import json
 import time
 import sys
 from readLogConfig import configure_logging_from_file
-from opcUAserver.src.opcuaClient import MQTTClient
+from mqttClient import MQTTClient
 from readConfig import read_configuration
 
 

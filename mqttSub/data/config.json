@@ -1,0 +1,54 @@
+{
+  "MQTT_HOST": {
+    "value": "2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud",
+    "description": "The MQTT broker host address"
+  },
+  "MQTT_PORT": {
+    "value": 8883,
+    "description": "The MQTT broker port number"
+  },
+  "MQTT_ENABLE_SSL": {
+    "value": true,
+    "description": "Enable SSL/TLS for MQTT communication"
+  },
+  "MQTT_USER": {
+    "value": "mqtt_publisher-01",
+    "description": "Username for MQTT authentication"
+  },
+  "MQTT_PASSWORD": {
+    "value": "eQZ~Mcb265Em:n,",
+    "description": "Password for MQTT authentication"
+  },
+  "PUPLISHER_NAME": {
+    "value": "mqtt_publisher-01",
+    "description": "The name of the publisher"
+  },
+  "PUPLISHER_DESCRIPTION": {
+    "value": "mqtt_publisher-01",
+    "description": "The description of the publisher"
+  },
+  "DIVISION": {
+    "value": "EMT",
+    "description": "The division name"
+  },
+  "SITE": {
+    "value": "LHB",
+    "description": "The site name"
+  },
+  "BUILDING": {
+    "value": "Halle2",
+    "description": "The building name"
+  },
+  "DEPARTMENT": {
+    "value": "assembly-line",
+    "description": "The department name"
+  },
+  "MACHINE": {
+    "value": "torque-machine",
+    "description": "The machine name"
+  },
+  "DEVICE": {
+    "value": "barcode-scanner",
+    "description": "the device which provides the information"
+  }
+}
