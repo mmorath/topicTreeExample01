@@ -2,7 +2,7 @@
 clear
 echo -e "############################################################################"
 echo -e "##### Script for preparing the environment                                 #"
-echo -e "##### author: Matthias Morath 2020-10-03 matthias.morath@gmail.com         #"
+echo -e "##### author: Matthias Morath 2020-10-03 kompass_eng_0x@icloud.com         #"
 echo -e "##### tested on:                                                           #"
 echo -e "#####  -Ubuntu 20.04.01                                                    #"
 echo -e "############################################################################"

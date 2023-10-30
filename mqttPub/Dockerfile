@@ -37,7 +37,7 @@ RUN pip install --no-warn-script-location -r ./src/requirements.txt
 ENV PATH="/app/.local/bin:${PATH}"
 
 # Add a label
-LABEL maintainer="matthias.morath@gmail.com" \
+LABEL maintainer="kompass_eng_0x@icloud.com" \
       version="1.0.0"
 
 # Run the application

@@ -7,7 +7,7 @@ __credits__ = ["Matthias Morath"]
 __license__ = "GPL"
 __version__ = "1.0"
 __maintainer__ = "Matthias Morath"
-__email__ = "matthias.morath@gmail.com"
+__email__ = "kompass_eng_0x@icloud.com"
 __status__ = "Development"
 # =============================================================================
 import time

@@ -5,7 +5,7 @@ echo -e "##### Script for deleting all docker & docker-compose related          
 echo -e "#####    - volumes                                                         #"
 echo -e "#####    - networks                                                        #"
 echo -e "#####    - images                                                          #"
-echo -e "##### author: Matthias Morath 2020-10-03 matthias.morath@liebherr.com      #"
+echo -e "##### author: Matthias Morath 2020-10-03 kompass_eng_0x@icloud.com      #"
 echo -e "##### tested on:                                                           #"
 echo -e "#####  -Ubuntu 20.04.01                                                    #"
 echo -e "############################################################################"
