@@ -1,35 +1,33 @@
-name: Auto-format Python code
+name: Main Workflow
 
 on:
-  push:
-    branches:
-      - main  # Adjust the branch name as per your project
-  pull_request: 
-    branches:
-      - main  # Adjust the branch name as per your project
+  workflow_run:
+    workflows: ["code_coverage_checks", "dependency_scanning_checks", "docker_checks", "docker_compose_checks", "json_validation_checks", "python_checks", "shell_linting_checks", "yaml_validation_checks"]
+    types:
+      - completed
 
 jobs:
-  auto_format:
+  release:
     runs-on: ubuntu-latest
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
-
-    - name: Set up Python
-      uses: actions/setup-python@v2
       with:
-        python-version: '3.8'  # Adjust the Python version as needed
+        ref: 'main'  # Replace with your default branch
 
-    - name: Install Black
-      run: pip install black
-
-    - name: Run Black
-      run: black .
-
-    - name: Commit changes
+    - name: Bump version and push tag
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
-        git add -u
-        git commit -m "Automatically formatted code with Black" || echo "No changes to commit"
-        git push
+        git tag -a v$(date +'%Y%m%d%H%M%S') -m "Auto-generated tag from GitHub Actions"
+        git push origin --tags
+
+    - name: Create Release
+      id: create_release
+      uses: actions/create-release@v1
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: Release ${{ github.ref }}
+        body: Auto-generated release from GitHub Actions.
+        draft: false
+        prerelease: false
