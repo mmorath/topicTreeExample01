@@ -1,0 +1,20 @@
+{
+    "variables": [
+        {
+            "name": "xHeartbeat",
+            "namespace": "4",
+            "identifier_type": "s",
+            "identifier": "|var|WAGO 750-8212 PFC200 G2 2ETH RS.Application.GVL_STATUS_PRG.IIoTgateway_xHeartbeat",
+            "min_value": 0,
+            "max_value": 1
+        },
+        {
+            "name": "Temperature",
+            "namespace": "4",
+            "identifier_type": "s",
+            "identifier": "Temperature_Identifier",
+            "min_value": 20,
+            "max_value": 30
+        }
+    ]
+}
