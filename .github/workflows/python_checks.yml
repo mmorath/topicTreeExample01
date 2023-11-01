@@ -1,4 +1,4 @@
-name: Python Checks
+name: Python Checks and Manual Auto-fix
 
 on:
   push:
@@ -11,25 +11,42 @@ on:
 jobs:
   python-check:
     runs-on: ubuntu-latest
+
     steps:
     - name: Checkout code
-      uses: actions/checkout@v2
-      
-    - name: Set up Python
+      uses: actions/checkout@v3
+
+    - name: Setup Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
-        
-    - name: Install dependencies
-      run: pip install black flake8
 
-    - name: Run Black and Flake8
+    - name: Install Dependencies
       run: |
-        black . --check > check_log.txt 2>&1
-        flake8 . --output-file=check_log.txt --append-output
+        pip install black
+        pip install autopep8
 
-    - name: Upload log file
-      uses: actions/upload-artifact@v2
-      with:
-        name: python-check-log
-        path: check_log.txt
+    - name: Run Black for Code Formatting
+      run: |
+        black . --exclude 'migrations'
+
+    - name: Run autopep8 for Code Formatting
+      run: |
+        autopep8 --in-place --aggressive --recursive .
+
+    - name: Check for changes
+      id: git-check
+      run: |
+        git diff --exit-code || echo "autopep8::true" >> $GITHUB_ENV
+      continue-on-error: true
+
+    - name: Commit changes to a new branch
+      if: env.autopep8 == 'true'
+      run: |
+        git config --global user.email "action@github.com"
+        git config --global user.name "GitHub Action"
+        git checkout -b format-fixes
+        git add -u
+        git commit -m "Code formatting by Black and autopep8"
+        git push origin format-fixes
+        echo "Created new branch format-fixes with formatting changes."
