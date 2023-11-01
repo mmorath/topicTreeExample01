@@ -4,7 +4,7 @@ import logging
 import asyncio
 from asyncua import Server
 
-class OPCUAServer:
+class AsyncUAServer:
     """
     OPC-UA Server to provide OPC-UA services.
 
