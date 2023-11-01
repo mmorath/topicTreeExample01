@@ -15,15 +15,15 @@ __status__ = "Development"
 import json
 import sys
 import asyncio
-from readLogConfig import configure_logging_from_file
-from readConfig import read_configuration
-from opcuaServer import OPCUAServer  # Adjust this import based on your project's structure
+from readLogConfig import configure_logging_from_file  # Replace with your actual logger
+from readConfig import read_configuration  # Replace with your actual config reader
+from asyncuaServer import AsyncUAServer  # Replace with your actual server class
 
 # Define constants for file paths here for easy management
 CONFIG_FILE_PATH = '/opcua_server_v01/data/config.json'
 VARIABLES_JSON_PATH = '/opcua_server_v01/data/messages.json'
 
-def main():
+async def main():
     # Initialize logger
     logger = configure_logging_from_file()
     if logger is None:
@@ -31,31 +31,31 @@ def main():
 
     # Read configuration from JSON file
     config_data = read_configuration(CONFIG_FILE_PATH)
-
     if config_data is None:
         logger.error("Failed to read configuration. Exiting...")
         sys.exit("Error: Failed to read the configuration. Program terminated.")
     
-    # OPC-UA server parameters
+    # Get the OPC-UA server endpoint from the configuration
     OPCUA_ENDPOINT = config_data.get("OPCUA_ENDPOINT", {}).get("value", "opc.tcp://localhost:4840/freeopcua/server/")
     
     # Initialize the OPC-UA server
-    opcua_server = OPCUAServer(OPCUA_ENDPOINT, logger)
+    async_ua_server = AsyncUAServer(OPCUA_ENDPOINT, logger)
+    
+    # Load variables from JSON file
+    await async_ua_server.load_variables_from_json(VARIABLES_JSON_PATH)
 
-    loop = asyncio.get_event_loop()
-    loop.run_until_complete(opcua_server.load_variables_from_json(VARIABLES_JSON_PATH))
-
+    # Start the server and handle exceptions
     try:
-        opcua_server.start()
-        loop.run_forever()
+        await async_ua_server.start()
+        while True:
+            await asyncio.sleep(1)
 
     except KeyboardInterrupt:
         logger.info("Keyboard interrupt detected. Exiting...")
-        opcua_server.stop()
-        loop.close()
+        await async_ua_server.stop()
 
     except Exception as e:
         logger.error(f"An error occurred: {str(e)}")
 
 if __name__ == "__main__":
-    main()
+    asyncio.run(main())
