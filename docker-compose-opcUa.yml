@@ -1,0 +1,65 @@
+# WARNING: Do not deploy this configuration directly to a production environment
+#
+# The tutorial docker-compose files have not been written for production deployment and will not 
+# scale. A proper architecture has been sacrificed to keep the narrative focused on the learning 
+# goals, they are just used to deploy everything onto a single Docker machine. 
+# They also contain various obvious security flaws - passwords in plain text, no load balancing,
+# no use of HTTPS and so on. 
+# 
+# This is all to avoid the need of multiple machines, generating certificates, encrypting secrets
+# and so on, purely so that a single docker-compose file can be read as an example to build on, 
+# not use directly. 
+
+# url: 2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud  port:8883
+# publisher: username: mqtt_publisher-01    pw:eQZ~Mcb265Em:n,
+# subscriber: username: mqtt_subscriber-01  pw:K^eY}qV9q@Vv6KQ
+# mqtt-explorer: username: mqtt_explorer    pw:8kliIkn-owlkm-ow
+
+version: "3.0"
+
+services:
+    # user:mqtt_subscriber-01 pw: K^eY}qV9q@Vv6KQ
+    # mqtt test publisher       
+    mqtt_publisher-01:
+        build: ./mqtt/mqtt_publisher
+        hostname: mqtt_publisher-01
+        container_name: mqtt_publisher-01
+        env_file:
+        - .env
+        restart: always
+        environment:
+        - MICROSERVICE_NAME="mqtt_publisher-01"
+        - MICROSERVICE_VERSION="V1.0"
+        - MQTT_HOST="2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud"
+        - MQTT_PORT=8883
+        - MQTT_ENABLE_SSL="true"
+        - MQTT_USER="mqtt_publisher-01"
+        - MQTT_PASSWORD="eQZ~Mcb265Em:n,"
+        - PUPLISHER_NAME="mqtt_publisher-01"
+        - PUPLISHER_DESCRIPTION="mqtt_publisher-01"
+        - DIVISION="EMT"
+        - SITE="LHB"
+        - BUILDING="Halle2"
+        - DEPARTMENT="assembly-line"
+        - MACHINE="torque-machine"
+        - UPDATE_RATE= 1000
+        - LOGGING_LEVEL="INFO" 
+
+    mqtt_subscriber-01:
+        build: ./mqtt/mqtt_subscriber
+        hostname: mqtt_subscriber-01
+        container_name: mqtt_subscriber-01
+        env_file:
+        - .env
+        restart: always
+        environment:
+        - MICROSERVICE_NAME="mqtt_subscriber-01"
+        - MICROSERVICE_VERSION="V1.0"
+        - MQTT_HOST="2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud"
+        - MQTT_PORT=8883
+        - MQTT_ENABLE_SSL="true"
+        - MQTT_USER="mqtt_subscriber-01"
+        - MQTT_PASSWORD="K^eY}qV9q@Vv6KQ"
+        - SUBSCRIBER_NAME="mqtt_subscriber-01"
+        - SUBSCRIBER_DESCRIPTION="mqtt_subscriber-01"
+        - LOGGING_LEVEL="DEBUG" 
