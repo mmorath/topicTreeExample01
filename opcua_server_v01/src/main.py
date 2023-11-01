@@ -33,8 +33,7 @@ async def main():
 
     # Try to read the config    
     try:
-        logger.info("Attempting to read configuration...")
-        
+        logger.info("Attempting to read configuration...")       
         config = read_configuration(CONFIG_FILE_PATH)
         if config is None:
             logger.error("Failed to read configuration. Exiting...")
@@ -49,11 +48,14 @@ async def main():
         
         logger.info(f"Server settings: endpoint={endpoint}, server_name={server_name}, namespace_uri={namespace_uri}")
 
+        # Initialize the OPC-UA server
         async_ua_server = AsyncUAServer(endpoint, logger)
+        # Set server name and namespace (make sure the AsyncUAServer class has these methods)
         async_ua_server.set_server_name(server_name)
         await async_ua_server.register_namespace(namespace_uri)
         
         logger.info("Loading variables from JSON file...")
+        # Load variables from JSON file
         await async_ua_server.load_variables_from_json(VARIABLES_JSON_PATH)
         logger.info("Variables successfully loaded.")
 
