@@ -15,15 +15,19 @@ __status__ = "Development"
 import json
 import sys
 import asyncio
-from readLogConfig import configure_logging_from_file  # Replace with your actual logger
-from readConfig import read_configuration  # Replace with your actual config reader
-from asyncuaServer import AsyncUAServer  # Replace with your actual server class
+from read_log_config import configure_logging_from_file  # Ensure correct import based on updated filename
+from read_config import read_configuration  # Ensure correct import based on updated filename
+from asyncua_server import AsyncUAServer  # Ensure correct import based on updated filename
 
-# Define constants for file paths here for easy management
+# Constants
 CONFIG_FILE_PATH = '/opcua_server_v01/data/config.json'
 VARIABLES_JSON_PATH = '/opcua_server_v01/data/messages.json'
 
 async def main():
+    """
+    Main function to initialize and run the asynchronous OPC-UA server.
+    """
+
     # Initialize logger
     logger = configure_logging_from_file()
     if logger is None:
@@ -35,8 +39,9 @@ async def main():
         logger.error("Failed to read configuration. Exiting...")
         sys.exit("Error: Failed to read the configuration. Program terminated.")
     
-    # Get the OPC-UA server endpoint from the configuration
-    OPCUA_ENDPOINT = config_data.get("OPCUA_ENDPOINT", {}).get("value", "opc.tcp://localhost:4840/freeopcua/server/")
+    # Get OPC-UA endpoint from configuration
+    opcua_config = config_data.get("OPCUA_ENDPOINT", {})
+    OPCUA_ENDPOINT = opcua_config.get("value", "opc.tcp://localhost:4840/freeopcua/server/")
     
     # Initialize the OPC-UA server
     async_ua_server = AsyncUAServer(OPCUA_ENDPOINT, logger)
@@ -44,7 +49,7 @@ async def main():
     # Load variables from JSON file
     await async_ua_server.load_variables_from_json(VARIABLES_JSON_PATH)
 
-    # Start the server and handle exceptions
+    # Start server and handle exceptions
     try:
         await async_ua_server.start()
         while True:
