@@ -2,7 +2,9 @@ name: Main Workflow
 
 on:
   workflow_run:
-    workflows: ["code_coverage_checks", "dependency_scanning_checks", "docker_checks", "docker_compose_checks", "json_validation_checks", "python_checks", "shell_linting_checks", "yaml_validation_checks"]
+    #workflows: ["code_coverage_checks", "dependency_scanning_checks", "docker_checks", "docker_compose_checks", "json_validation_checks", "python_checks", "shell_linting_checks", "yaml_validation_checks"]
+    workflows: ["python_checks"]
+
     types:
       - completed
 
