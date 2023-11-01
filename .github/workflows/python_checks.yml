@@ -21,7 +21,13 @@ jobs:
 
     # Checkout code
     - name: Checkout code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v2
+
+    # This step will print the working directory and list its contents
+    - name: Debugging working directory
+      run: |
+        pwd
+        ls -al
 
     # Setup Python 3.x environment
     - name: Setup Python
