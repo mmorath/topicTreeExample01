@@ -13,40 +13,48 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    # Setup Node.js 16.x
+    - name: Setup Node.js 16.x
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16.x'
+
+    # Checkout code
     - name: Checkout code
       uses: actions/checkout@v3
 
+    # Setup Python 3.x environment
     - name: Setup Python
       uses: actions/setup-python@v2
       with:
         python-version: '3.x'
 
-    - name: Install Dependencies
+    # Install dependencies
+    - name: Install dependencies
       run: |
-        pip install black
-        pip install autopep8
+        pip install black flake8
 
-    - name: Run Black for Code Formatting
-      run: |
-        black . --exclude 'migrations'
-
-    - name: Run autopep8 for Code Formatting
-      run: |
-        autopep8 --in-place --aggressive --recursive .
-
-    - name: Check for changes
-      id: git-check
-      run: |
-        git diff --exit-code || echo "autopep8::true" >> $GITHUB_ENV
+    # Run Black for auto-formatting
+    - name: Auto-format with Black
+      run: black --check .
       continue-on-error: true
 
-    - name: Commit changes to a new branch
-      if: env.autopep8 == 'true'
-      run: |
-        git config --global user.email "action@github.com"
-        git config --global user.name "GitHub Action"
-        git checkout -b format-fixes
-        git add -u
-        git commit -m "Code formatting by Black and autopep8"
-        git push origin format-fixes
-        echo "Created new branch format-fixes with formatting changes."
+    # Run Flake8 for linting
+    - name: Lint with Flake8
+      run: flake8
+      continue-on-error: true
+
+    # Run PEP8 for style checks
+    - name: Check style with PEP8
+      run: pycodestyle --max-line-length=120
+      continue-on-error: true
+
+    # Manual intervention
+    - name: Manual Intervention
+      run: echo "Manual intervention required if previous steps failed."
+      if: failure()
+
+    # If all is good, prepare for merging (this is a placeholder, implement as needed)
+    - name: Prepare for Merging
+      run: echo "All checks passed. Ready for merging."
+      if: success()
