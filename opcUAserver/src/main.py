@@ -13,19 +13,18 @@ __status__ = "Development"
 # =============================================================================
 
 import json
-import time
 import sys
+import asyncio
 from readLogConfig import configure_logging_from_file
-from opcUAserver.src.opcuaClient import MQTTClient
 from readConfig import read_configuration
-
+from opcUAserver.src.opcuaServer import OPCUAServer  # Replace with the actual path to your OPCUAServer file
 
 def main():
     # Initialize logger
     logger = configure_logging_from_file()
 
     # Read configuration from config.json
-    config_file_path = '/mqttPub/data/config.json'  # Update with your config file path
+    config_file_path = '/opcUAserver/data/config.json'  # Update with your config file path
     config_data = read_configuration(config_file_path)
 
     # Check if the configuration file can be read, else quit
@@ -33,66 +32,29 @@ def main():
         logger.error("Failed to read configuration. Exiting...")
         sys.exit("Error: Failed to read the configuration. Program terminated.")
 
-    # MQTT parameters
-    MQTT_HOST = config_data.get("MQTT_HOST", {}).get("value")
-    MQTT_PORT = config_data.get("MQTT_PORT", {}).get("value")
-    MQTT_ENABLE_SSL = config_data.get("MQTT_ENABLE_SSL", {}).get("value")
-    MQTT_USER = config_data.get("MQTT_USER", {}).get("value")
-    MQTT_PASSWORD = config_data.get("MQTT_PASSWORD", {}).get("value")
-    SUBSCRIBER_NAME = config_data.get("SUBSCRIBER_NAME", {}).get("value")
-    SUBSCRIBER_DESCRIPTION = config_data.get("SUBSCRIBER_DESCRIPTION", {}).get("value")
+    # OPC-UA server parameters
+    OPCUA_ENDPOINT = config_data.get("OPCUA_ENDPOINT", {}).get("value", "opc.tcp://localhost:4840/freeopcua/server/")
     
-    # Topic parameters
-    DIVISION = config_data.get("DIVISION", {}).get("value")
-    SITE = config_data.get("SITE", {}).get("value")
-    BUILDING = config_data.get("BUILDING", {}).get("value")
-    DEPARTMENT = config_data.get("DEPARTMENT", {}).get("value")
-    MACHINE = config_data.get("MACHINE", {}).get("value")
-    DEVICE = config_data.get("DEVICE", {}).get("value")
+    # Initialize the OPC-UA server
+    opcua_server = OPCUAServer(OPCUA_ENDPOINT)
 
-    # Create the MQTT topic
-    TOPIC = f"{DIVISION}/{SITE}/{BUILDING}/{DEPARTMENT}/{MACHINE}/{DEVICE}"
-    logger.info(f"Topic which will be published to: {TOPIC}")
-
-    # Initialize the MQTT client
-    mqtt_client = MQTTClient(MQTT_HOST, MQTT_PORT, MQTT_ENABLE_SSL, MQTT_USER, MQTT_PASSWORD)
-
-    # Read variables from variables.json before entering the while loop
-    variables_json_path = '/mqttPub/data/messages.json'  # Update with your variables JSON file path
-    with open(variables_json_path, 'r') as f:
-        variables_json = json.load(f)
+    # Read variables from variables.json before starting the OPC-UA server
+    variables_json_path = '/opcUAserver/data/messages.json'  # Update with your variables JSON file path
+    loop = asyncio.get_event_loop()
+    loop.run_until_complete(opcua_server.load_variables_from_json(variables_json_path))
 
     try:
-        # Connect to the MQTT broker
-        mqtt_client.connect()
-
-        while True:
-            try:
-                for category in variables_json:
-                    for item in variables_json[category]:
-                        topic = item['topic']
-                        variable = item['payload']['variable']
-                        unit = item['payload']['unit']
-                        value = eval(item['payload']['value'])  # Using eval to evaluate the random function
-                        payload = f"{variable}: {value} {unit}"
-
-                        # Debugging statement
-                        logger.debug(f"Publishing to {topic}: {payload}")
-
-                        # Publish to MQTT topic
-                        mqtt_client.client.publish(topic=topic, payload=payload, qos=0, retain=False)
-
-                # Add a sleep time to regulate the data sending rate
-                time.sleep(1)
-
-            except KeyboardInterrupt:
-                # Handle Keyboard Interrupt to exit the program
-                logger.info("Keyboard interrupt detected. Exiting...")
-                break
+        opcua_server.start()
+        loop.run_forever()
+        
+    except KeyboardInterrupt:
+        # Handle Keyboard Interrupt to exit the program
+        logger.info("Keyboard interrupt detected. Exiting...")
+        opcua_server.stop()
+        loop.close()
 
     except Exception as e:
         logger.error(f"An error occurred: {str(e)}")
-
 
 if __name__ == "__main__":
     main()
