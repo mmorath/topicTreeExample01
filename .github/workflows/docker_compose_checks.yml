@@ -1,0 +1,29 @@
+name: Docker Compose Checks
+
+on:
+  push:
+    branches:
+      - main  # Adjust the branch name as per your project
+  pull_request:
+    branches:
+      - main  # Adjust the branch name as per your project
+
+jobs:
+  validate_compose:
+    runs-on: ubuntu-latest
+    steps:
+    # Setup Node 16 for GitHub Actions
+    - name: Setup Node.js 16
+      uses: actions/setup-node@v2
+      with:
+        node-version: '16'
+
+    # Checkout the code
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    # Validate docker-compose file
+    - name: Validate docker-compose configuration
+      run: |
+        docker-compose config -q
+

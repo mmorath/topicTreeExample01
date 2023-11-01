@@ -1,0 +1,12 @@
+name: JSON Validation Checks
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Validate all JSON files
+        run: find . -name '*.json' | xargs jq empty

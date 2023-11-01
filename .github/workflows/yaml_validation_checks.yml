@@ -1,0 +1,12 @@
+name: YAML Validation Checks
+
+on: [push, pull_request]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Validate all YAML files
+        run: find . -name '*.yml' | xargs yamllint
