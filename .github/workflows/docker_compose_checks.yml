@@ -26,4 +26,3 @@ jobs:
     - name: Validate docker-compose configuration
       run: |
         docker-compose config -q
-

@@ -1,9 +1,0 @@
-{
-  "OPCUA_SERVER_SETTINGS": {
-      "endpoint": "opc.tcp://127.0.0.1:4840/opcua/",
-      "server_name": "OPC-UA simulation server",
-      "namespace": {
-          "uri": "http://xxxxxxxt.com/opcua/"
-      }
-  }
-}

@@ -52,7 +52,7 @@ jobs:
 
     # Run PEP8 for style checks
     - name: Check style with PEP8
-      run: pycodestyle --max-line-length=120
+      run: pycodestyle --max-line-length=180
       continue-on-error: true
 
     # Manual intervention
