@@ -21,41 +21,7 @@ services:
     # user:mqtt_subscriber-01 pw: K^eY}qV9q@Vv6KQ
     # mqtt test publisher       
     mqtt_publisher-01:
-        build: ./mqtt/mqtt_publisher
+        build: ./mqttPub
         hostname: mqtt_publisher-01
         container_name: mqtt_publisher-01
         restart: always
-        environment:
-        - MICROSERVICE_NAME="mqtt_publisher-01"
-        - MICROSERVICE_VERSION="V1.0"
-        - MQTT_HOST="2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud"
-        - MQTT_PORT=8883
-        - MQTT_ENABLE_SSL="true"
-        - MQTT_USER="mqtt_publisher-01"
-        - MQTT_PASSWORD="eQZ~Mcb265Em:n,"
-        - PUPLISHER_NAME="mqtt_publisher-01"
-        - PUPLISHER_DESCRIPTION="mqtt_publisher-01"
-        - DIVISION="EMT"
-        - SITE="LHB"
-        - BUILDING="Halle2"
-        - DEPARTMENT="assembly-line"
-        - MACHINE="torque-machine"
-        - UPDATE_RATE= 1000
-        - LOGGING_LEVEL="INFO" 
-
-    mqtt_subscriber-01:
-        build: ./mqtt/mqtt_subscriber
-        hostname: mqtt_subscriber-01
-        container_name: mqtt_subscriber-01
-        restart: always
-        environment:
-        - MICROSERVICE_NAME="mqtt_subscriber-01"
-        - MICROSERVICE_VERSION="V1.0"
-        - MQTT_HOST="2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud"
-        - MQTT_PORT=8883
-        - MQTT_ENABLE_SSL="true"
-        - MQTT_USER="mqtt_subscriber-01"
-        - MQTT_PASSWORD="K^eY}qV9q@Vv6KQ"
-        - SUBSCRIBER_NAME="mqtt_subscriber-01"
-        - SUBSCRIBER_DESCRIPTION="mqtt_subscriber-01"
-        - LOGGING_LEVEL="DEBUG" 

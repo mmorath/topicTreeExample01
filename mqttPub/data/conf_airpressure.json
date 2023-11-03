@@ -3,15 +3,15 @@
     "HOST": "mqtt_broker_address",
     "PORT": 1883,
     "ENABLE_SSL": false,
-    "USER": "user1",
-    "PASSWORD": "password1"
+    "USER": "airpessure",
+    "PASSWORD": "rTq5%7LkG,'KR?#"
   },
   "SUBSCRIBER": {
     "NAME": "airpessure",
     "DESCRIPTION": "simulates air pressure equipment"
   },
   "TOPIC_STRUCTURE": [
-    "division1",
+    "Gb01",
     "site1",
     "building1",
     "department1",

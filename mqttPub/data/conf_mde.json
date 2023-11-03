@@ -42,10 +42,12 @@
       {
         "name": "Afo",
         "description": "Operation within the work order",
-        "type": "string",
+        "type": "integer",
         "unit": "code",
         "validator": "^\\d{2}$",
-        "default": "30"
+        "default": "30",
+        "min": 0,
+        "max": 100
       },
       {
         "name": "Partnumber",

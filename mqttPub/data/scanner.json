@@ -1,7 +1,7 @@
 {
   "MQTT": {
-    "HOST": "mqtt_broker_address",
-    "PORT": 1883,
+    "HOST": "2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud",
+    "PORT": 8883,
     "ENABLE_SSL": false,
     "USER": "user1",
     "PASSWORD": "password1"
