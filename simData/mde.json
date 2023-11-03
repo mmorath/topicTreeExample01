@@ -1,0 +1,173 @@
+{
+    "MQTT": {
+      "HOST": "mqtt_broker_address",
+      "PORT": 1883,
+      "ENABLE_SSL": false,
+      "USER": "user1",
+      "PASSWORD": "password1"
+    },
+    "SUBSCRIBER": {
+      "NAME": "mde",
+      "DESCRIPTION": "simulates a mde interface"
+    },
+    "TOPIC_STRUCTURE": [
+      "division1",
+      "site1",
+      "building1",
+      "department1",
+      "machine1",
+      "device1"
+    ],
+      "MESSAGES": [
+      {
+        "name": "OrderId",
+        "description": "Unique identifier for the order",
+        "type": "integer",
+        "unit": "id",
+        "validator": "^\\d{9}$",
+        "default": 123456030,
+        "min": 123456000,
+        "max": 123456999
+      },
+      {
+        "name": "Workorder",
+        "description": "Work order number",
+        "type": "integer",
+        "unit": "id",
+        "validator": "^\\d{6}$",
+        "default": 123456,
+        "min": 100000,
+        "max": 999999
+      },
+      {
+        "name": "Afo",
+        "description": "Operation within the work order",
+        "type": "string",
+        "unit": "code",
+        "validator": "^\\d{2}$",
+        "default": "30"
+      },
+      {
+        "name": "Partnumber",
+        "description": "Identification number for the part",
+        "type": "integer",
+        "unit": "id",
+        "validator": "^\\d{10}$",
+        "default": 1234567890,
+        "min": 1000000000,
+        "max": 9999999999
+      },
+      {
+        "name": "wrkDescrptn",
+        "description": "Description of the work",
+        "type": "string",
+        "unit": "text",
+        "validator": "^[\\w\\s]+$",
+        "default": "BLECH"
+      },
+      {
+        "name": "NomQuantity",
+        "description": "Nominal quantity of items to be produced",
+        "type": "integer",
+        "unit": "pieces",
+        "validator": "^\\d+$",
+        "default": 10,
+        "min": 1,
+        "max": 100
+      },
+      {
+        "name": "ActQuantity",
+        "description": "Actual quantity of items produced",
+        "type": "integer",
+        "unit": "pieces",
+        "validator": "^\\d+$",
+        "default": 5,
+        "min": 0,
+        "max": 100
+      },
+      {
+        "name": "Startdate",
+        "description": "Start date of the operation",
+        "type": "date",
+        "unit": "date",
+        "validator": "^\\d{4}-\\d{2}-\\d{2}$",
+        "default": "1900-01-01"
+      },
+      {
+        "name": "Nomsetuptm",
+        "description": "Nominal setup time for the operation",
+        "type": "integer",
+        "unit": "minutes",
+        "validator": "^\\d+$",
+        "default": 30,
+        "min": 0,
+        "max": 120
+      },
+      {
+        "name": "ActSetuptm",
+        "description": "Actual setup time for the operation",
+        "type": "integer",
+        "unit": "minutes",
+        "validator": "^\\d+$",
+        "default": 20,
+        "min": 0,
+        "max": 120
+      },
+      {
+        "name": "NomRuntime",
+        "description": "Nominal runtime for the operation",
+        "type": "integer",
+        "unit": "minutes",
+        "validator": "^\\d+$",
+        "default": 200,
+        "min": 0,
+        "max": 600
+      },
+      {
+        "name": "ActRunmtime",
+        "description": "Actual runtime for the operation",
+        "type": "integer",
+        "unit": "minutes",
+        "validator": "^\\d+$",
+        "default": 180,
+        "min": 0,
+        "max": 600
+      },
+      {
+        "name": "machineGrp",
+        "description": "Group to which the machine belongs",
+        "type": "string",
+        "unit": "group",
+        "validator": "^[0-9A-Z]{4}$",
+        "default": "0C12"
+      },
+      {
+        "name": "machineNr",
+        "description": "Number of the machine",
+        "type": "enum",
+        "unit": "machine",
+        "validator": "Must be one of the specified enum values",
+        "default": "Pamaxy",
+        "values": [
+          "Bystronic-01",
+          "Bystronic-02",
+          "Bystronic-03",
+          "Pamaxy"
+        ]
+      },
+      {
+        "name": "MachineState",
+        "description": "Current state of the machine",
+        "type": "enum",
+        "unit": "state",
+        "validator": "Must be one of the specified enum values",
+        "default": "Idle",
+        "values": [
+          "Idle",
+          "Running",
+          "Maintenance",
+          "Stopped"
+        ]
+      }  
+    ]
+  }  

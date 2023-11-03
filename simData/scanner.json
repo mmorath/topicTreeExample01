@@ -1,0 +1,71 @@
+{
+  "MQTT": {
+    "HOST": "mqtt_broker_address",
+    "PORT": 1883,
+    "ENABLE_SSL": false,
+    "USER": "user1",
+    "PASSWORD": "password1"
+  },
+  "SUBSCRIBER": {
+    "NAME": "scanner",
+    "DESCRIPTION": "simulates a Scanner "
+  },
+  "TOPIC_STRUCTURE": [
+    "division1",
+    "site1",
+    "building1",
+    "department1",
+    "machine1",
+    "device1"
+  ],
+    "MESSAGES": [
+      {
+        "name": "BarcodeData",
+        "description": "The data encoded within the barcode",
+        "type": "string",
+        "unit": "text",
+        "default": "123456789012"
+      },
+      {
+        "name": "BarcodeFormat",
+        "description": "The symbology or format of the barcode",
+        "type": "enum",
+        "unit": "format",
+        "default": "UPC",
+        "values": ["UPC", "EAN", "QR Code", "Data Matrix", "Code 128", "Code 39"]
+      },
+      {
+        "name": "Timestamp",
+        "description": "The date and time when the barcode was scanned",
+        "type": "string",
+        "unit": "datetime",
+        "validator": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}Z$",
+        "default": "2023-01-01T00:00:00Z"
+      },
+      {
+        "name": "ScannerID",
+        "description": "Unique identifier for the barcode scanner",
+        "type": "string",
+        "unit": "id",
+        "default": "Scanner01"
+      },
+      {
+        "name": "ScanSuccess",
+        "description": "Indicates if the barcode was successfully scanned",
+        "type": "boolean",
+        "unit": "status",
+        "default": true
+      },
+      {
+        "name": "ScanDuration",
+        "description": "Time taken to perform the scan in milliseconds",
+        "type": "integer",
+        "unit": "milliseconds",
+        "validator": "^\\d+$",
+        "min": 0,
+        "max": 10000,
+        "default": 100
+      }
+    ]
+  }
+}

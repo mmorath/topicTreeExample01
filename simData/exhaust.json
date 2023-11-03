@@ -1,0 +1,62 @@
+{
+  "MQTT": {
+    "HOST": "mqtt_broker_address",
+    "PORT": 1883,
+    "ENABLE_SSL": false,
+    "USER": "user1",
+    "PASSWORD": "password1"
+  },
+  "SUBSCRIBER": {
+    "NAME": "exhaust",
+    "DESCRIPTION": "simulates a exhaust system"
+  },
+  "TOPIC_STRUCTURE": [
+    "division1",
+    "site1",
+    "building1",
+    "department1",
+    "machine1",
+    "device1"
+  ],
+    "MESSAGES": [
+      {
+        "name": "SystemStatus",
+        "description": "Indicates whether the exhaust system is on or off",
+        "type": "enum",
+        "unit": "status",
+        "default": "Off",
+        "values": ["On", "Off"]
+      },
+      {
+        "name": "FlapPosition",
+        "description": "Position of the flap regulating the exhaust diameter",
+        "type": "float",
+        "unit": "percentage",
+        "validator": "^(100(\\.0+)?|\\d{1,2}(\\.\\d+)?)$",
+        "min": 0.0,
+        "max": 100.0,
+        "default": 50.0
+      },
+      {
+        "name": "FlowBeforeIntake",
+        "description": "Flow rate measured before the intake of the exhaust system",
+        "type": "float",
+        "unit": "cubic meters per hour",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 10000.0,
+        "default": 5000.0
+      },
+      {
+        "name": "FlowAfterIntake",
+        "description": "Flow rate measured after the intake of the exhaust system",
+        "type": "float",
+        "unit": "cubic meters per hour",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 10000.0,
+        "default": 4500.0
+      }
+    ]
+  }
+}

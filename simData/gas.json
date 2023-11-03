@@ -1,0 +1,52 @@
+{
+  "MQTT": {
+    "HOST": "mqtt_broker_address",
+    "PORT": 1883,
+    "ENABLE_SSL": false,
+    "USER": "user1",
+    "PASSWORD": "password1"
+  },
+  "SUBSCRIBER": {
+    "NAME": "subscriber1",
+    "DESCRIPTION": "Description for subscriber 1"
+  },
+  "TOPIC_STRUCTURE": [
+    "division1",
+    "site1",
+    "building1",
+    "department1",
+    "machine1",
+    "device1"
+  ],
+    "MESSAGES": [
+      {
+        "name": "GasType",
+        "description": "Type of gas being monitored",
+        "type": "enum",
+        "unit": "type",
+        "default": "CO2",
+        "values": ["CO2", "Oxygen", "Neon", "Nitrogen"]
+      },
+      {
+        "name": "FlowRate",
+        "description": "Current flow rate of the gas",
+        "type": "float",
+        "unit": "liters per minute",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 50.0
+      },
+      {
+        "name": "UsageCounter",
+        "description": "Cumulative counter of gas units used since installation",
+        "type": "integer",
+        "unit": "units",
+        "validator": "^\\d+$",
+        "min": 0.0,
+        "max": 99999999.0,
+        "default": 99.0
+      }
+    ]
+  }
+}

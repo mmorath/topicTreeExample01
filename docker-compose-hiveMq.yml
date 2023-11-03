@@ -24,8 +24,6 @@ services:
         build: ./mqtt/mqtt_publisher
         hostname: mqtt_publisher-01
         container_name: mqtt_publisher-01
-        env_file:
-        - .env
         restart: always
         environment:
         - MICROSERVICE_NAME="mqtt_publisher-01"
@@ -49,8 +47,6 @@ services:
         build: ./mqtt/mqtt_subscriber
         hostname: mqtt_subscriber-01
         container_name: mqtt_subscriber-01
-        env_file:
-        - .env
         restart: always
         environment:
         - MICROSERVICE_NAME="mqtt_subscriber-01"

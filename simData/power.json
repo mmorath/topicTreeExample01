@@ -1,0 +1,205 @@
+{
+  "MQTT": {
+    "HOST": "mqtt_broker_address",
+    "PORT": 1883,
+    "ENABLE_SSL": false,
+    "USER": "user1",
+    "PASSWORD": "password1"
+  },
+  "SUBSCRIBER": {
+    "NAME": "power",
+    "DESCRIPTION": "simulates a power meter"
+  },
+  "TOPIC_STRUCTURE": [
+    "division1",
+    "site1",
+    "building1",
+    "department1",
+    "machine1",
+    "device1"
+  ],
+    "MESSAGES": [
+      {
+        "name": "EnergyRegister",
+        "description": "Energy register indication",
+        "type": "float",
+        "unit": "kWh",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 99999999.0,
+        "default": 100.0
+      },
+      {
+        "name": "VoltageL1N",
+        "description": "Voltage from phase L1 to neutral",
+        "type": "float",
+        "unit": "volts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 230.0
+      },
+      {
+        "name": "VoltageL2N",
+        "description": "Voltage from phase L2 to neutral",
+        "type": "float",
+        "unit": "volts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 230.0
+      },
+      {
+        "name": "VoltageL3N",
+        "description": "Voltage from phase L3 to neutral",
+        "type": "float",
+        "unit": "volts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 230.0
+      },
+      {
+        "name": "VoltageL1L2",
+        "description": "Voltage between phase L1 and L2",
+        "type": "float",
+        "unit": "volts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 400.0
+      },
+      {
+        "name": "VoltageL2L3",
+        "description": "Voltage between phase L2 and L3",
+        "type": "float",
+        "unit": "volts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 400.0
+      },
+      {
+        "name": "VoltageL3L1",
+        "description": "Voltage between phase L3 and L1",
+        "type": "float",
+        "unit": "volts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 500.0,
+        "default": 400.0
+      },
+      {
+        "name": "CurrentL1",
+        "description": "Current in phase L1",
+        "type": "float",
+        "unit": "amperes",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 1000.0,
+        "default": 10.0
+      },
+      {
+        "name": "CurrentL2",
+        "description": "Current in phase L2",
+        "type": "float",
+        "unit": "amperes",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 1000.0,
+        "default": 10.0
+      },
+      {
+        "name": "CurrentL3",
+        "description": "Current in phase L3",
+        "type": "float",
+        "unit": "amperes",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 1000.0,
+        "default": 10.0
+      },
+      {
+        "name": "Frequency",
+        "description": "Frequency of the electrical supply",
+        "type": "float",
+        "unit": "Hertz",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 45.0,
+        "max": 65.0,
+        "default": 50.0
+      },
+      {
+        "name": "ActivePower",
+        "description": "Active power of the system",
+        "type": "float",
+        "unit": "watts",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 10000.0,
+        "default": 5000.0
+      },
+      {
+        "name": "ReactivePower",
+        "description": "Reactive power of the system",
+        "type": "float",
+        "unit": "volt-amperes reactive",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 10000.0,
+        "default": 2000.0
+      },
+      {
+        "name": "ApparentPower",
+        "description": "Apparent power of the system",
+        "type": "float",
+        "unit": "volt-amperes",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 10000.0,
+        "default": 7000.0
+      },
+      {
+        "name": "PowerFactor",
+        "description": "Power factor of the system",
+        "type": "float",
+        "unit": "dimensionless",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 1.0,
+        "default": 0.95
+      },
+      {
+        "name": "SerialNumber",
+        "description": "Serial number of the power meter",
+        "type": "string",
+        "unit": "identifier",
+        "default": "SN-1234567890"
+      },
+      {
+        "name": "SoftwareVersion",
+        "description": "Software version of the power meter",
+        "type": "string",
+        "unit": "version",
+        "default": "v1.2.3"
+      },
+      {
+        "name": "RotatingFieldOk",
+        "description": "Indicates if the rotating field is operating correctly",
+        "type": "boolean",
+        "unit": "status",
+        "default": true
+      },
+      {
+        "name": "PowerMeterCounter",
+        "description": "Total kilowatt hours counted by the power meter",
+        "type": "float",
+        "unit": "kWh",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 99999999.0,
+        "default": 0.0
+      }
+    ]
+  }
+}

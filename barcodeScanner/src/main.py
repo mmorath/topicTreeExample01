@@ -17,6 +17,7 @@ from readLogConfig import configure_logging_from_file
 from mqttClient import MQTTClient 
 from readConfig import read_configuration
 
+
 def main():
     logger = configure_logging_from_file()
     # Read the configuration from config.json

@@ -1,0 +1,64 @@
+{
+  "MQTT": {
+    "HOST": "mqtt_broker_address",
+    "PORT": 1883,
+    "ENABLE_SSL": false,
+    "USER": "user1",
+    "PASSWORD": "password1"
+  },
+  "SUBSCRIBER": {
+    "NAME": "cooling",
+    "DESCRIPTION": "simulates a cooling system"
+  },
+  "TOPIC_STRUCTURE": [
+    "division1",
+    "site1",
+    "building1",
+    "department1",
+    "machine1",
+    "device1"
+  ],
+    "MESSAGES": [
+      {
+        "name": "InletTemperature",
+        "description": "Temperature of the coolant at the inlet",
+        "type": "float",
+        "unit": "Celsius",
+        "validator": "^\\d+\\.\\d+$",
+        "min": -10.0,
+        "max": 100.0,
+        "default": 25.0
+      },
+      {
+        "name": "OutletTemperature",
+        "description": "Temperature of the coolant at the outlet",
+        "type": "float",
+        "unit": "Celsius",
+        "validator": "^\\d+\\.\\d+$",
+        "min": -10.0,
+        "max": 100.0,
+        "default": 20.0
+      },
+      {
+        "name": "Pressure",
+        "description": "Pressure within the cooling system",
+        "type": "float",
+        "unit": "bar",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 10.0,
+        "default": 1.0
+      },
+      {
+        "name": "Flow",
+        "description": "Flow rate of the coolant",
+        "type": "float",
+        "unit": "liters per minute",
+        "validator": "^\\d+\\.\\d+$",
+        "min": 0.0,
+        "max": 100.0,
+        "default": 10.0
+      }
+    ]
+  }
+}
