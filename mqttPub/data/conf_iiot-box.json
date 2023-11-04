@@ -1,0 +1,180 @@
+{
+    "MQTT": {
+      "HOST": "mqtt_broker_address",
+      "PORT": 1883,
+      "ENABLE_SSL": false,
+      "USER": "user1",
+      "PASSWORD": "password1"
+    },
+    "SUBSCRIBER": {
+      "NAME": "iiot_box",
+      "DESCRIPTION": "Simulates an IIoT box with various inputs and outputs"
+    },
+    "TOPIC_STRUCTURE": [
+      "factory",
+      "site1",
+      "building1",
+      "department1",
+      "iiot_box"
+    ],
+    "MESSAGES": [
+      {
+        "name": "iiot_box_alive/xHeartbeat",
+        "description": "Heartbeat signal to indicate that the IIoT box is alive",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xPushButtonIndicatorB",
+        "description": "Status of the blue push button indicator",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xPushButtonIndicatorG",
+        "description": "Status of the green push button indicator",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xPushButtonIndicatorR",
+        "description": "Status of the red push button indicator",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xSignalLampBuzzer",
+        "description": "Status of the signal lamp buzzer",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xSignalLampSegment01",
+        "description": "Status of signal lamp segment 01",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xSignalLampSegment01",
+        "description": "Status of signal lamp segment 02",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xSignalLampSegment04",
+        "description": "Status of signal lamp segment 03",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_ouputs/xSignalLampSegment01",
+        "description": "Status of signal lamp segment 04",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_inputs/xDoorSwitch",
+        "description": "Status of the door switch",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_inputs/xEmergencyStop",
+        "description": "Status of the door switch",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "iiot_box_inputs/xVoltagePresent",
+        "description": "Status of the door switch",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "mde_signals/xAutomaticSwitchOff",
+        "description": "Signal indicating if the automatic switch-off has been triggered",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "mde_signals/xTargetCountReached",
+        "description": "Signal indicating if the target count reached",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "mde_signals/xMainCircuitSwitchOn",
+        "description": "Signal indicating if the main circuit switch which powers the machine is on or off",
+        "type": "boolean",
+        "unit": "",
+        "validator": "^[01]$",
+        "min": 0,
+        "max": 1,
+        "default": 0
+      },
+      {
+        "name": "plc_stats/sActualHostName",
+        "description": "Actual host name of the PLC",
+        "type": "string",
+        "unit": "",
+        "validator": ".+",
+        "value": "\"PLCHostName\""
+      }
+    ]
+  }
