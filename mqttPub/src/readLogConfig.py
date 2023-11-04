@@ -2,6 +2,7 @@ import logging
 import logging.handlers
 import configparser
 
+
 def configure_logging():
     # Create a logger
     logger = logging.getLogger('../data/logger.conf')
@@ -10,13 +11,16 @@ def configure_logging():
     logger.setLevel(logging.DEBUG)
 
     # Create a handler
-    handler = logging.handlers.SysLogHandler(address=('your_log_server_ip', 514))
+    handler = logging.handlers.SysLogHandler(
+        address=('your_log_server_ip', 514))
 
     # Set the level for the handler
     handler.setLevel(logging.DEBUG)
 
     # Create a formatter
-    formatter = logging.Formatter('%(asctime)s - %(name)s - %(levelname)s - %(message)s', datefmt='%Y-%m-%d %H:%M:%S')
+    formatter = logging.Formatter(
+        '%(asctime)s - %(name)s - %(levelname)s - %(message)s',
+        datefmt='%Y-%m-%d %H:%M:%S')
 
     # Set the formatter for the handler
     handler.setFormatter(formatter)
@@ -25,6 +29,7 @@ def configure_logging():
     logger.addHandler(handler)
 
     return logger
+
 
 def configure_logging_from_file():
     try:
@@ -38,17 +43,28 @@ def configure_logging_from_file():
         logger = logging.getLogger('myLogger')
 
         # Set the level for the logger
-        logger.setLevel(logging.getLevelName(config.get('logger_myLogger', 'level')))
+        logger.setLevel(
+            logging.getLevelName(
+                config.get(
+                    'logger_myLogger',
+                    'level')))
 
         # Create a handler
         address = eval(config.get('handler_syslogHandler', 'args'))
         handler = logging.handlers.SysLogHandler(address=address)
 
         # Set the level for the handler
-        handler.setLevel(logging.getLevelName(config.get('handler_syslogHandler', 'level')))
+        handler.setLevel(
+            logging.getLevelName(
+                config.get(
+                    'handler_syslogHandler',
+                    'level')))
 
         # Create a formatter
-        formatter = logging.Formatter(config.get('formatter_simpleFormatter', 'format'), datefmt=config.get('formatter_simpleFormatter', 'datefmt'))
+        formatter = logging.Formatter(
+            config.get(
+                'formatter_simpleFormatter', 'format'), datefmt=config.get(
+                'formatter_simpleFormatter', 'datefmt'))
 
         # Set the formatter for the handler
         handler.setFormatter(formatter)

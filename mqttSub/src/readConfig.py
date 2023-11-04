@@ -1,6 +1,7 @@
 import logging
 import json
 
+
 def read_configuration(file_path):
     """
     Read the configuration data from a JSON file.
@@ -28,5 +29,6 @@ def read_configuration(file_path):
         logger.error("Error: Invalid JSON format in the configuration file.")
     except Exception as e:
         logger.error(f"Error: {str(e)}")
-
-    return config_data  # Return None if there was an error reading the configuration
+        
+    # Return None if there was an error reading the configuration
+    return config_data  

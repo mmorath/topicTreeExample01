@@ -25,7 +25,8 @@ def main():
     logger = configure_logging_from_file()
 
     # Read configuration from config.json
-    config_file_path = '/mqttPub/data/config.json'  # Update with your config file path
+    # Update with your config file path
+    config_file_path = '/mqttPub/data/config.json'
     config_data = read_configuration(config_file_path)
 
     # Check if the configuration file can be read, else quit
@@ -40,8 +41,9 @@ def main():
     MQTT_USER = config_data.get("MQTT_USER", {}).get("value")
     MQTT_PASSWORD = config_data.get("MQTT_PASSWORD", {}).get("value")
     SUBSCRIBER_NAME = config_data.get("SUBSCRIBER_NAME", {}).get("value")
-    SUBSCRIBER_DESCRIPTION = config_data.get("SUBSCRIBER_DESCRIPTION", {}).get("value")
-    
+    SUBSCRIBER_DESCRIPTION = config_data.get(
+        "SUBSCRIBER_DESCRIPTION", {}).get("value")
+
     # Topic parameters
     DIVISION = config_data.get("DIVISION", {}).get("value")
     SITE = config_data.get("SITE", {}).get("value")
@@ -55,10 +57,16 @@ def main():
     logger.info(f"Topic which will be published to: {TOPIC}")
 
     # Initialize the MQTT client
-    mqtt_client = MQTTClient(MQTT_HOST, MQTT_PORT, MQTT_ENABLE_SSL, MQTT_USER, MQTT_PASSWORD)
+    mqtt_client = MQTTClient(
+        MQTT_HOST,
+        MQTT_PORT,
+        MQTT_ENABLE_SSL,
+        MQTT_USER,
+        MQTT_PASSWORD)
 
     # Read variables from variables.json before entering the while loop
-    variables_json_path = '/mqttPub/data/messages.json'  # Update with your variables JSON file path
+    # Update with your variables JSON file path
+    variables_json_path = '/mqttPub/data/messages.json'
     with open(variables_json_path, 'r') as f:
         variables_json = json.load(f)
 
@@ -73,14 +81,16 @@ def main():
                         topic = item['topic']
                         variable = item['payload']['variable']
                         unit = item['payload']['unit']
-                        value = eval(item['payload']['value'])  # Using eval to evaluate the random function
+                        # Using eval to evaluate the random function
+                        value = eval(item['payload']['value'])
                         payload = f"{variable}: {value} {unit}"
 
                         # Debugging statement
                         logger.debug(f"Publishing to {topic}: {payload}")
 
                         # Publish to MQTT topic
-                        mqtt_client.client.publish(topic=topic, payload=payload, qos=0, retain=False)
+                        mqtt_client.client.publish(
+                            topic=topic, payload=payload, qos=0, retain=False)
 
                 # Add a sleep time to regulate the data sending rate
                 time.sleep(1)

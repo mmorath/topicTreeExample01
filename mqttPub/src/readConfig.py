@@ -1,6 +1,7 @@
 import logging
 import json
 
+
 def read_configuration(file_path):
     """
     Read the configuration data from a JSON file.
