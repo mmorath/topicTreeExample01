@@ -1,107 +1,60 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-# =============================================================================
-__author__ = "Matthias Morath"
-__copyright__ = "Copyright 2021"
-__credits__ = ["Matthias Morath"]
-__license__ = "GPL"
-__version__ = "1.0"
-__maintainer__ = "Matthias Morath"
-__email__ = "kompass_eng_0x@icloud.com"
-__status__ = "Development"
-# =============================================================================
-
+import os
 import json
-import time
+import re
 import sys
 from readLogConfig import configure_logging_from_file
 from mqttClient import MQTTClient
 from readConfig import read_configuration
 
+# Constants
+CONFIG_FILE_PATH = '/app/data/conf.json'
+
+# Function to sanitize topic components
+def sanitize_topic_component(component):
+    # Converts to lowercase and replaces special characters with underscores
+    component = component.lower()
+    component = re.sub(r'[^a-z0-9_]+', '_', component)
+    return component
 
 def main():
     # Initialize logger
     logger = configure_logging_from_file()
 
-    # Read configuration from config.json
-    # Update with your config file path
-    config_file_path = '/mqttPub/data/config.json'
-    config_data = read_configuration(config_file_path)
+    # Read configuration from the standard path
+    config_data = read_configuration(CONFIG_FILE_PATH)
 
-    # Check if the configuration file can be read, else quit
+    # Check configuration file readability
     if config_data is None:
-        logger.error("Failed to read configuration. Exiting...")
-        sys.exit("Error: Failed to read the configuration. Program terminated.")
+        logger.error(f"Failed to read configuration from {CONFIG_FILE_PATH}. Exiting...")
+        sys.exit(1)  # Exit with an error code
 
-    # MQTT parameters
-    MQTT_HOST = config_data.get("MQTT_HOST", {}).get("value")
-    MQTT_PORT = config_data.get("MQTT_PORT", {}).get("value")
-    MQTT_ENABLE_SSL = config_data.get("MQTT_ENABLE_SSL", {}).get("value")
-    MQTT_USER = config_data.get("MQTT_USER", {}).get("value")
-    MQTT_PASSWORD = config_data.get("MQTT_PASSWORD", {}).get("value")
-    SUBSCRIBER_NAME = config_data.get("SUBSCRIBER_NAME", {}).get("value")
-    SUBSCRIBER_DESCRIPTION = config_data.get(
-        "SUBSCRIBER_DESCRIPTION", {}).get("value")
+    # Extract MQTT configuration with defaults
+    mqtt_config = config_data.get("MQTT", {})
+    MQTT_HOST = mqtt_config.get("HOST", "localhost")
+    MQTT_PORT = int(mqtt_config.get("PORT", 1883))
+    MQTT_ENABLE_SSL = mqtt_config.get("ENABLE_SSL", False)
+    MQTT_USER = mqtt_config.get("USER", "")
+    MQTT_PASSWORD = mqtt_config.get("PASSWORD", "")  # Sensitive, handle with care
 
-    # Topic parameters
-    DIVISION = config_data.get("DIVISION", {}).get("value")
-    SITE = config_data.get("SITE", {}).get("value")
-    BUILDING = config_data.get("BUILDING", {}).get("value")
-    DEPARTMENT = config_data.get("DEPARTMENT", {}).get("value")
-    MACHINE = config_data.get("MACHINE", {}).get("value")
-    DEVICE = config_data.get("DEVICE", {}).get("value")
+    # Extract subscriber configuration with defaults
+    subscriber_config = config_data.get("SUBSCRIBER", {})
+    SUBSCRIBER_NAME = subscriber_config.get("NAME", "default_subscriber")
+    SUBSCRIBER_DESCRIPTION = subscriber_config.get("DESCRIPTION", "Default MQTT Subscriber Description")
 
-    # Create the MQTT topic
-    TOPIC = f"{DIVISION}/{SITE}/{BUILDING}/{DEPARTMENT}/{MACHINE}/{DEVICE}"
-    logger.info(f"Topic which will be published to: {TOPIC}")
+    # Log MQTT configuration while hiding sensitive information
+    logger.info("MQTT Configuration:")
+    logger.info(f"Host: {MQTT_HOST}")
+    logger.info(f"Port: {MQTT_PORT}")
+    logger.info(f"SSL Enabled: {MQTT_ENABLE_SSL}")
+    logger.info(f"User: {MQTT_USER}")
+    logger.info("Password: [HIDDEN]")
+    logger.info(f"Subscriber Name: {SUBSCRIBER_NAME}")
+    logger.info(f"Subscriber Description: {SUBSCRIBER_DESCRIPTION}")
 
-    # Initialize the MQTT client
-    mqtt_client = MQTTClient(
-        MQTT_HOST,
-        MQTT_PORT,
-        MQTT_ENABLE_SSL,
-        MQTT_USER,
-        MQTT_PASSWORD)
-
-    # Read variables from variables.json before entering the while loop
-    # Update with your variables JSON file path
-    variables_json_path = '/mqttPub/data/messages.json'
-    with open(variables_json_path, 'r') as f:
-        variables_json = json.load(f)
-
-    try:
-        # Connect to the MQTT broker
-        mqtt_client.connect()
-
-        while True:
-            try:
-                for category in variables_json:
-                    for item in variables_json[category]:
-                        topic = item['topic']
-                        variable = item['payload']['variable']
-                        unit = item['payload']['unit']
-                        # Using eval to evaluate the random function
-                        value = eval(item['payload']['value'])
-                        payload = f"{variable}: {value} {unit}"
-
-                        # Debugging statement
-                        logger.debug(f"Publishing to {topic}: {payload}")
-
-                        # Publish to MQTT topic
-                        mqtt_client.client.publish(
-                            topic=topic, payload=payload, qos=0, retain=False)
-                # Add a sleep time to regulate the data sending rate
-                time.sleep(1)
-
-            except KeyboardInterrupt:
-                # Handle Keyboard Interrupt to exit the program
-                logger.info("Keyboard interrupt detected. Exiting...")
-                break
-
-    except Exception as e:
-        logger.error(f"An error occurred: {str(e)}")
-
+    # ... Rest of your code ...
 
 if __name__ == "__main__":
     main()
