@@ -91,7 +91,6 @@ def main():
                         # Publish to MQTT topic
                         mqtt_client.client.publish(
                             topic=topic, payload=payload, qos=0, retain=False)
-
                 # Add a sleep time to regulate the data sending rate
                 time.sleep(1)
 
