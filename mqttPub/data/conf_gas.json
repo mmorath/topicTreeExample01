@@ -1,22 +1,23 @@
 {
   "MQTT": {
-    "HOST": "mqtt_broker_address",
-    "PORT": 1883,
-    "ENABLE_SSL": false,
+    "HOST": "2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud",
+    "PORT": 8883,
+    "ENABLE_SSL": true,
     "USER": "user1",
     "PASSWORD": "password1"
   },
   "SUBSCRIBER": {
-    "NAME": "subscriber1",
+    "NAME": "gas",
     "DESCRIPTION": "Description for subscriber 1"
   },
   "TOPIC_STRUCTURE": [
-    "division1",
-    "site1",
-    "building1",
-    "department1",
-    "machine1",
-    "device1"
+    "eh",
+    "gb01",
+    "n02",
+    "01",
+    "035",
+    "bystronic01",
+    "gas"
   ],
     "MESSAGES": [
       {

@@ -11,12 +11,12 @@
     "DESCRIPTION": "simulates air pressure equipment"
   },
   "TOPIC_STRUCTURE": [
-    "EH",
-    "Gb01",
-    "N02",
+    "eh",
+    "gb01",
+    "n02",
     "01",
     "035",
-    "Bystronic01",
+    "bystronic01",
     "airpessure"
   ],
     "MESSAGES": [
