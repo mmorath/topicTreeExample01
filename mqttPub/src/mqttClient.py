@@ -2,10 +2,7 @@
 import paho.mqtt.client as mqttPubSub
 import time
 import logging
-import requests
-
-SUBSCRIBER_NAME = "YourSubscriberName"  # Replace with your subscriber name
-
+#import requests
 
 class MQTTClient:
     def __init__(
@@ -107,17 +104,16 @@ class MQTTClient:
 
 
     def publish(self, topic, payload, qos=0, retain=False):
-            """
-            Publish a message to a topic on the MQTT broker.
-            
-            :param topic: The topic to publish to.
-            :param payload: The message payload to publish.
-            :param qos: The Quality of Service level of the message.
-            :param retain: If True, the message will be set as the 
-                         "last known good" for the topic.
-            """
-            if self.flag_connected:  # Only attempt to publish if connected
-                self.client.publish(topic, payload, qos, retain)
-            else:
-                logging.error("Cannot publish because the client is not "
-                              "connected.")
+        """
+        Publish a message to a topic on the MQTT broker.
+        :param topic: The topic to publish to.
+        :param payload: The message payload to publish.
+        :param qos: The Quality of Service level of the message.
+        :param retain: If True, the message will be set as the
+                        "last known good" for the topic.
+        """
+        if self.flag_connected:  # Only attempt to publish if connected
+            self.client.publish(topic, payload, qos, retain)
+        else:
+            logging.error("Cannot publish because the client is not "
+                        "connected.")
