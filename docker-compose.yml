@@ -10,21 +10,16 @@
 # and so on, purely so that a single docker-compose file can be read as an example to build on, 
 # not use directly. 
 
-# url: 2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud  port:8883
-# publisher: username: mqtt_publisher-01    pw:eQZ~Mcb265Em:n,
-# subscriber: username: mqtt_subscriber-01  pw:K^eY}qV9q@Vv6KQ
-# mqtt-explorer: username: mqtt_explorer    pw:8kliIkn-owlkm-ow
-
 version: "3.0"
 
 services:
-    mqtt_publisher-01:
+    mqtt_publisher-airpressure:
         build: ./mqttPub
-        hostname: mqtt_publisher-01
-        container_name: mqtt_publisher-01
+        hostname: mqtt_publisher
+        container_name: mqtt_publisher
         #restart: always
         volumes:
-          - ./mqttPub/data/conf_airpressure.json:/app/data/conf.json  # Mounting as conf.json
+          - ./mqttPub/data/conf_airpressure.json:/app/data/conf.json
         networks:
           - mqtt_network
         logging:
