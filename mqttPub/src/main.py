@@ -1,12 +1,13 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
-import os
 import json
-import re
-import sys
 import random
+import re
 import string
+import sys
+import time
+from datetime import datetime
 from readLogConfig import configure_logging_from_file
 from mqttClient import MQTTClient
 from readConfig import read_configuration
@@ -15,12 +16,16 @@ from readConfig import read_configuration
 # Constants
 CONFIG_FILE_PATH = '/app/data/conf.json'
 
-
+# ==============================================================================
 # Function to sanitize topic components
+# ==============================================================================
+
+
 def sanitize_topic_component(component):
     """
     Sanitizes the topic component to ensure it contains no uppercase letters,
     spaces, or special characters, replacing them with underscores.
+
     :param component: A string representing a single component of the MQTT topic.
     :return: A sanitized string with only lowercase letters, numbers, and underscores.
     """
@@ -28,22 +33,26 @@ def sanitize_topic_component(component):
     component = re.sub(r'[^a-z0-9_]+', '_', component)
     return component
 
-
+# ==============================================================================
 # Function to safely generate a random message value
+# ==============================================================================
+
+
 def evaluate_message_value(item):
     """
-    Generate a random or default value for the message based on its type and constraints.
-    If the type is not recognized, return an error message as the value.
-    
-    :param item: A dictionary containing the message definition including type and constraints.
-    :return: A value for the message, or an error string if type is unrecognized.
+    Generate a random or default value for the message based on its type and
+    constraints. If the type is not recognized, return an error message as the value.
+
+    :param item: Dict containing the message definition including type and constraints.
+    :return: Value for the message, or an error string if type is unrecognized.
     """
     value_type = item.get('type')
     try:
         if value_type == 'integer':
             return random.randint(item.get('min', 0), item.get('max', 100))
         elif value_type == 'string':
-            return item.get('default', ''.join(random.choices(string.ascii_uppercase + string.digits, k=10)))
+            return item.get('default', ''.join(random.choices(
+                string.ascii_uppercase + string.digits, k=10)))
         elif value_type == 'boolean':
             return random.choice([True, False])
         elif value_type == 'enum':
@@ -51,45 +60,73 @@ def evaluate_message_value(item):
         elif value_type == 'float':
             min_val = item.get('min', 0.0)
             max_val = item.get('max', 100.0)
-            return round(random.uniform(min_val, max_val), item.get('precision', 2))
+            return round(random.uniform(min_val, max_val), 
+                         item.get('precision', 2))
         else:
-            # If the type is not recognized, return an error message as the value
             return "Error: Unrecognized type"
     except (KeyError, ValueError, TypeError) as e:
-        # If there are any issues with the parameters provided, return an error message
         return f"Error: {e}"
+
+# ==============================================================================
+# Function to build a JSON-formatted payload for MQTT messages
+# ==============================================================================
+
+def build_topic_payload(variable, value, unit):
+    """
+    Constructs a JSON-formatted payload for an MQTT message including a
+    timestamp and the given variable information.
+
+    :param variable: The name of the variable.
+    :param value: The value to send.
+    :param unit: The unit of the value.
+    :return: A JSON-formatted string payload.
+    """
+    payload = {
+        'timestamp': int(time.time()),
+        'timestamp_readable': datetime.utcnow().strftime(
+            "%d-%m-%Y %H:%M:%S.%f")[:-3] + "Z",
+        'variable': variable,
+        'value': value,
+        'unit': unit
+    }
+    return json.dumps(payload)
+
+# ==============================================================================
+# Main function
+# ==============================================================================
 
 
 def main():
-    # Initialize logger
+    """ Main function for publishing MQTT messages. """
     logger = configure_logging_from_file()
 
-    # Read configuration from the standard path
+    # Load and validate configuration
     try:
         config_data = read_configuration(CONFIG_FILE_PATH)
     except json.JSONDecodeError as e:
-        logger.error(f"Error: Invalid JSON format in the configuration file at {CONFIG_FILE_PATH} - {e}")
-        sys.exit(1)  # Exit code 1 for general errors
-
-    # Ensure the configuration data is not None
-    if config_data is None:
-        logger.error(f"Failed to read configuration from {CONFIG_FILE_PATH}. Exiting...")
+        logger.error("Invalid JSON format in config: %s - %s",
+                     CONFIG_FILE_PATH, e)
         sys.exit(1)
 
-    # Extract MQTT configuration with defaults
+    if config_data is None:
+        logger.error("Failed to read config: %s. Exiting...",
+                     CONFIG_FILE_PATH)
+        sys.exit(1)
+
+    # MQTT configuration
     mqtt_config = config_data.get("MQTT", {})
     MQTT_HOST = mqtt_config.get("HOST", "localhost")
     MQTT_PORT = int(mqtt_config.get("PORT", 1883))
     MQTT_ENABLE_SSL = mqtt_config.get("ENABLE_SSL", False)
     MQTT_USER = mqtt_config.get("USER", "")
-    MQTT_PASSWORD = mqtt_config.get("PASSWORD", "")  # Sensitive, handle with care
+    MQTT_PASSWORD = mqtt_config.get("PASSWORD", "")
 
-    # Extract subscriber configuration with defaults
+    # Subscriber configuration
     subscriber_config = config_data.get("SUBSCRIBER", {})
     SUBSCRIBER_NAME = subscriber_config.get("NAME", "default_subscriber")
-    SUBSCRIBER_DESCRIPTION = subscriber_config.get("DESCRIPTION", "Default MQTT Subscriber Description")
+    SUBSCRIBER_DESCRIPTION = subscriber_config.get("DESCRIPTION",
+                                                   "Default MQTT Subscriber")
 
-    # Log MQTT configuration while hiding sensitive information
     logger.info("MQTT Configuration:")
     logger.info(f"Host: {MQTT_HOST}")
     logger.info(f"Port: {MQTT_PORT}")
@@ -99,53 +136,53 @@ def main():
     logger.info(f"Subscriber Name: {SUBSCRIBER_NAME}")
     logger.info(f"Subscriber Description: {SUBSCRIBER_DESCRIPTION}")
 
-    # Read and sanitize topic components
+    # Topic construction
     topic_components = [
-        sanitize_topic_component(comp) for comp in config_data.get("TOPIC_STRUCTURE", [])
+        sanitize_topic_component(comp) for comp in config_data.get(
+            "TOPIC_STRUCTURE", [])
     ]
-
-    # Log each sanitized topic component to verify correctness
-    logger.info("Sanitized Topic Components:")
-
-    # Build the MQTT topic by joining the sanitized components with '/'
     TOPIC = '/'.join(topic_components)
     logger.info(f"Sanitized Full Topic Path: {TOPIC}")
 
-    # Initialize the MQTT client (placeholder, implement accordingly)
-    # Initialize the MQTT client
     mqtt_client = MQTTClient(
-        MQTT_HOST,
-        MQTT_PORT,
-        MQTT_ENABLE_SSL,
-        MQTT_USER,
-        MQTT_PASSWORD)
+        mqtt_host=MQTT_HOST,
+        mqtt_port=MQTT_PORT,
+        mqtt_enable_ssl=MQTT_ENABLE_SSL,
+        mqtt_user=MQTT_USER,
+        mqtt_password=MQTT_PASSWORD,
+        subscriber_name=SUBSCRIBER_NAME)
 
-    # Connect to the MQTT broker
+    mqtt_client.connect()
+
+    while not mqtt_client.flag_connected:
+        logger.info("Waiting for MQTT client to connect...")
+        time.sleep(1)
+
+    # Message processing
+    messages_config = config_data.get('MESSAGES', [])
     try:
-        mqtt_client.connect()
+        while True:
+            for message in messages_config:
+                message_name = message['name']
+                message_topic = f"{TOPIC}/{message_name}"
+                value = evaluate_message_value(message)
+                unit = message.get('unit', '')
+                payload = build_topic_payload(message_name, value, unit)
 
-        # Process each message as per the 'MESSAGES' key in the configuration
-        messages_config = config_data.get('MESSAGES', [])
-        for message in messages_config:
-            topic = TOPIC  # Assuming you want to publish each message on the same TOPIC
-            name = message['name']
-            value = evaluate_message_value(message)
-            unit = message['unit']
-            payload = f"{name}: {value} {unit}"
+                logger.debug(f"Publishing to {message_topic}: {payload}")
+                mqtt_client.publish(topic=message_topic, payload=payload,
+                                    qos=0, retain=False)
 
-            # Debugging statement
-            logger.debug(f"Publishing to {topic}: {payload}")
+                time.sleep(0.5)
 
-            # Publish to MQTT topic
-            mqtt_client.publish(topic=topic, payload=payload, qos=0, retain=False)
-            # Add a sleep time to regulate the data sending rate
-            time.sleep(1)
+            if not mqtt_client.flag_connected:
+                logger.error("Lost connection to broker. Exiting...")
+                break
 
     except KeyboardInterrupt:
-        # Handle Keyboard Interrupt to exit the program
         logger.info("Keyboard interrupt detected. Exiting...")
     except Exception as e:
-        logger.error(f"An error occurred: {str(e)}")
+        logger.error("An error occurred: %s", e)
 
 
 if __name__ == "__main__":
