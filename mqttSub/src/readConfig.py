@@ -2,6 +2,7 @@ import logging
 import json
 import traceback
 
+
 def read_configuration(file_path):
     """
     Read the configuration data from a JSON file.
@@ -23,9 +24,12 @@ def read_configuration(file_path):
     except FileNotFoundError:
         logger.error(f"Error: Configuration file not found at {file_path}")
     except json.JSONDecodeError as e:
-        logger.error(f"Error: Invalid JSON format in the configuration file at {file_path} - {e}")
+        logger.error(f"Error: Invalid JSON format in the configuration 
+                     file at {file_path} - {e}")
     except Exception as e:
-        logger.error(f"An unexpected error occurred while reading the configuration: {e}")
-        logger.debug(traceback.format_exc())  # This line will print the stack trace to the debug log
+        logger.error(f"An unexpected error occurred while reading the
+                      configuration: {e}")
+        # This line will print the stack trace to the debug log
+        logger.debug(traceback.format_exc())  
     # If any exception was caught, None is returned
     return None
