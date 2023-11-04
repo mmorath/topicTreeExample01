@@ -1,6 +1,6 @@
 import logging
 import json
-
+import traceback
 
 def read_configuration(file_path):
     """
@@ -13,21 +13,19 @@ def read_configuration(file_path):
         dict: The loaded configuration data if successful, None otherwise.
     """
     logger = logging.getLogger(__name__)
-    config_data = None
 
     try:
         logger.info(f"Reading configuration from file: {file_path}")
         with open(file_path, 'r') as file:
             config_data = json.load(file)
-
         logger.info("Configuration successfully read.")
-        return config_data  # Return the loaded configuration data
-
+        return config_data
     except FileNotFoundError:
-        logger.error("Error: Configuration file not found.")
-    except json.JSONDecodeError:
-        logger.error("Error: Invalid JSON format in the configuration file.")
+        logger.error(f"Error: Configuration file not found at {file_path}")
+    except json.JSONDecodeError as e:
+        logger.error(f"Error: Invalid JSON format in the configuration file at {file_path} - {e}")
     except Exception as e:
-        logger.error(f"Error: {str(e)}")
-
-    return config_data  # Return None if there was an error reading the configuration
+        logger.error(f"An unexpected error occurred while reading the configuration: {e}")
+        logger.debug(traceback.format_exc())  # This line will print the stack trace to the debug log
+    # If any exception was caught, None is returned
+    return None
