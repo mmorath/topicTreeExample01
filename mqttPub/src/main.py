@@ -82,9 +82,9 @@ def build_topic_payload(variable, value, unit):
     :return: A JSON-formatted string payload.
     """
     payload = {
-        'timestamp': int(time.time()),
-        'timestamp_readable': datetime.utcnow().strftime(
-            "%d-%m-%Y %H:%M:%S.%f")[:-3] + "Z",
+        #'timestamp': int(time.time()),
+        #'timestamp_readable': datetime.utcnow().strftime(
+        #    "%d-%m-%Y %H:%M:%S.%f")[:-3] + "Z",
         'variable': variable,
         'value': value,
         'unit': unit
