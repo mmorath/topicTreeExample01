@@ -1,4 +1,4 @@
-import sys
+#import sys
 import paho.mqtt.client as mqttPubSub
 import time
 import logging
@@ -113,10 +113,11 @@ class MQTTClient:
             :param topic: The topic to publish to.
             :param payload: The message payload to publish.
             :param qos: The Quality of Service level of the message.
-            :param retain: If True, the message will be set as the "last known good" for the topic.
+            :param retain: If True, the message will be set as the 
+                         "last known good" for the topic.
             """
             if self.flag_connected:  # Only attempt to publish if connected
                 self.client.publish(topic, payload, qos, retain)
             else:
-                logging.error("Cannot publish because the client is not connected.")
-
+                logging.error("Cannot publish because the client is not "
+                              "connected.")

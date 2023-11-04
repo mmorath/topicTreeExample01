@@ -1,13 +1,24 @@
 #!/usr/bin/env python
 # -*- coding:utf-8 -*-
 
+# =============================================================================
+__author__ = "Matthias Morath"
+__copyright__ = "Copyright 2023"
+__credits__ = ["Matthias Morath"]
+__license__ = "GPL"
+__version__ = "2.0"
+__maintainer__ = "Matthias Morath"
+__email__ = "kompass_eng_0x@icloud.com"
+__status__ = "Development"
+# =============================================================================
+
 import json
 import random
 import re
 import string
 import sys
 import time
-from datetime import datetime
+from datetime import datetime #uncommented in function build_topic_payload
 from readLogConfig import configure_logging_from_file
 from mqttClient import MQTTClient
 from readConfig import read_configuration
@@ -26,8 +37,10 @@ def sanitize_topic_component(component):
     Sanitizes the topic component to ensure it contains no uppercase letters,
     spaces, or special characters, replacing them with underscores.
 
-    :param component: A string representing a single component of the MQTT topic.
-    :return: A sanitized string with only lowercase letters, numbers, and underscores.
+    :param component: A string representing a single component of the 
+                      MQTT topic.
+    :return: A sanitized string with only lowercase letters, numbers, 
+             and underscores.
     """
     component = component.lower()
     component = re.sub(r'[^a-z0-9_]+', '_', component)
@@ -41,9 +54,11 @@ def sanitize_topic_component(component):
 def evaluate_message_value(item):
     """
     Generate a random or default value for the message based on its type and
-    constraints. If the type is not recognized, return an error message as the value.
+    constraints. If the type is not recognized, return an error message as the
+    value.
 
-    :param item: Dict containing the message definition including type and constraints.
+    :param item: Dict containing the message definition including type and
+                 constraints.
     :return: Value for the message, or an error string if type is unrecognized.
     """
     value_type = item.get('type')
@@ -173,7 +188,7 @@ def main():
                 mqtt_client.publish(topic=message_topic, payload=payload,
                                     qos=0, retain=False)
 
-                time.sleep(0.5)
+                time.sleep(1)
 
             if not mqtt_client.flag_connected:
                 logger.error("Lost connection to broker. Exiting...")
