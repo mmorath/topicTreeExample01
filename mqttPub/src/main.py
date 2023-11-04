@@ -5,6 +5,8 @@ import os
 import json
 import re
 import sys
+import random
+import string
 from readLogConfig import configure_logging_from_file
 from mqttClient import MQTTClient
 from readConfig import read_configuration
@@ -25,6 +27,37 @@ def sanitize_topic_component(component):
     component = component.lower()
     component = re.sub(r'[^a-z0-9_]+', '_', component)
     return component
+
+
+# Function to safely generate a random message value
+def evaluate_message_value(item):
+    """
+    Generate a random or default value for the message based on its type and constraints.
+    If the type is not recognized, return an error message as the value.
+    
+    :param item: A dictionary containing the message definition including type and constraints.
+    :return: A value for the message, or an error string if type is unrecognized.
+    """
+    value_type = item.get('type')
+    try:
+        if value_type == 'integer':
+            return random.randint(item.get('min', 0), item.get('max', 100))
+        elif value_type == 'string':
+            return item.get('default', ''.join(random.choices(string.ascii_uppercase + string.digits, k=10)))
+        elif value_type == 'boolean':
+            return random.choice([True, False])
+        elif value_type == 'enum':
+            return random.choice(item['enum'])
+        elif value_type == 'float':
+            min_val = item.get('min', 0.0)
+            max_val = item.get('max', 100.0)
+            return round(random.uniform(min_val, max_val), item.get('precision', 2))
+        else:
+            # If the type is not recognized, return an error message as the value
+            return "Error: Unrecognized type"
+    except (KeyError, ValueError, TypeError) as e:
+        # If there are any issues with the parameters provided, return an error message
+        return f"Error: {e}"
 
 
 def main():
@@ -79,10 +112,40 @@ def main():
     logger.info(f"Sanitized Full Topic Path: {TOPIC}")
 
     # Initialize the MQTT client (placeholder, implement accordingly)
-    mqtt_client = MQTTClient(MQTT_HOST, MQTT_PORT, MQTT_ENABLE_SSL, MQTT_USER, MQTT_PASSWORD)
+    # Initialize the MQTT client
+    mqtt_client = MQTTClient(
+        MQTT_HOST,
+        MQTT_PORT,
+        MQTT_ENABLE_SSL,
+        MQTT_USER,
+        MQTT_PASSWORD)
 
-    # The rest of your code to connect to the broker and publish messages would go here
-    # ...
+    # Connect to the MQTT broker
+    try:
+        mqtt_client.connect()
+
+        # Process each message as per the 'MESSAGES' key in the configuration
+        messages_config = config_data.get('MESSAGES', [])
+        for message in messages_config:
+            topic = TOPIC  # Assuming you want to publish each message on the same TOPIC
+            name = message['name']
+            value = evaluate_message_value(message)
+            unit = message['unit']
+            payload = f"{name}: {value} {unit}"
+
+            # Debugging statement
+            logger.debug(f"Publishing to {topic}: {payload}")
+
+            # Publish to MQTT topic
+            mqtt_client.publish(topic=topic, payload=payload, qos=0, retain=False)
+            # Add a sleep time to regulate the data sending rate
+            time.sleep(1)
+
+    except KeyboardInterrupt:
+        # Handle Keyboard Interrupt to exit the program
+        logger.info("Keyboard interrupt detected. Exiting...")
+    except Exception as e:
+        logger.error(f"An error occurred: {str(e)}")
 
 
 if __name__ == "__main__":
