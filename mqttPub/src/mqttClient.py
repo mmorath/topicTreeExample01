@@ -5,6 +5,7 @@ import paho.mqtt.client as mqttPubSub
 import time
 import logging
 
+
 class MQTTClient:
     def __init__(
             self,
@@ -63,7 +64,8 @@ class MQTTClient:
         else:
             self.flag_connected = False
             logging.error(
-                'No connection to MQTT host: %s on port: %s, returned result code: %s',
+                'No connection to MQTT host: %s on port: %s,'
+                ' returned result code: %s',
                 self.mqtt_host,
                 self.mqtt_port,
                 str(rc))
@@ -87,9 +89,9 @@ class MQTTClient:
         """ callback on subscribe """
         logging.info("Subscribed: %s %s", str(mid), str(granted_qos))
 
-
     def on_message(self, client, userdata, msg):
-        """ callback on message for when a PUBLISH message is received from the server """
+        """ callback on message for when a PUBLISH message is received
+        from the server """
         payload = str(msg.payload.decode("utf-8"))
         logging.info(
             'Received topic: %s payload: %s qos: %s retain: %s',
@@ -98,11 +100,9 @@ class MQTTClient:
             msg.qos,
             msg.retain)
 
-
     def on_log(self, client, userdata, level, buf):
         """ callback for logging """
         logging.debug('%s', buf)
-
 
     def publish(self, topic, payload, qos=0, retain=False):
         """
@@ -117,4 +117,4 @@ class MQTTClient:
             self.client.publish(topic, payload, qos, retain)
         else:
             logging.error("Cannot publish because the client is not "
-                        "connected.")
+                          "connected.")

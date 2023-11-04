@@ -18,7 +18,7 @@ import re
 import string
 import sys
 import time
-from datetime import datetime #uncommented in function build_topic_payload
+# from datetime import datetime
 from readLogConfig import configure_logging_from_file
 from mqttClient import MQTTClient
 from readConfig import read_configuration
@@ -37,9 +37,9 @@ def sanitize_topic_component(component):
     Sanitizes the topic component to ensure it contains no uppercase letters,
     spaces, or special characters, replacing them with underscores.
 
-    :param component: A string representing a single component of the 
+    :param component: A string representing a single component of the
                       MQTT topic.
-    :return: A sanitized string with only lowercase letters, numbers, 
+    :return: A sanitized string with only lowercase letters, numbers,
              and underscores.
     """
     component = component.lower()
@@ -86,6 +86,7 @@ def evaluate_message_value(item):
 # Function to build a JSON-formatted payload for MQTT messages
 # ==============================================================================
 
+
 def build_topic_payload(variable, value, unit):
     """
     Constructs a JSON-formatted payload for an MQTT message including a
@@ -97,12 +98,12 @@ def build_topic_payload(variable, value, unit):
     :return: A JSON-formatted string payload.
     """
     payload = {
-        #'timestamp': int(time.time()),
-        #'timestamp_readable': datetime.utcnow().strftime(
-        #    "%d-%m-%Y %H:%M:%S.%f")[:-3] + "Z",
+        # 'timestamp': int(time.time()),
+        # 'timestamp_readable': datetime.utcnow().strftime(
+        #     "%d-%m-%Y %H:%M:%S.%f")[:-3] + "Z",
         'variable': variable,
         'value': value,
-        'unit': unit
+        'unit': unit,
     }
     return json.dumps(payload)
 
@@ -188,7 +189,7 @@ def main():
                 mqtt_client.publish(topic=message_topic, payload=payload,
                                     qos=0, retain=False)
 
-                time.sleep(1)
+                # time.sleep(1)
 
             if not mqtt_client.flag_connected:
                 logger.error("Lost connection to broker. Exiting...")
