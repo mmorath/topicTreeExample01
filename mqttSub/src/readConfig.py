@@ -27,8 +27,8 @@ def read_configuration(file_path):
         logger.error(f"Error: Invalid JSON format in the configuration 
                      file at {file_path} - {e}")
     except Exception as e:
-        logger.error(f"An unexpected error occurred while reading the
-                      configuration: {e}")
+        logger.error(f"An unexpected error occurred while reading the "
+                    f"configuration: {e}")
         # This line will print the stack trace to the debug log
         logger.debug(traceback.format_exc())  
     # If any exception was caught, None is returned
