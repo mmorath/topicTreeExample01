@@ -26,10 +26,12 @@ CONFIG_FILE_PATH = '/app/data/conf.json'
 # Main function
 # ==============================================================================
 
+
 def on_message(client, userdata, message):
     """ Callback function for when a message is received. """
     payload = str(message.payload.decode("utf-8"))
     logger.info(f"Message received: topic='{message.topic}' payload='{payload}'")
+
 
 def main():
     """ Main function for subscribing to MQTT topics. """
@@ -39,11 +41,13 @@ def main():
     try:
         config_data = read_configuration(CONFIG_FILE_PATH)
     except json.JSONDecodeError as e:
-        logger.error("Invalid JSON format in config: %s - %s", CONFIG_FILE_PATH, e)
+        logger.error("Invalid JSON format in config: %s - %s", 
+                     CONFIG_FILE_PATH, e)
         sys.exit(1)
 
     if config_data is None:
-        logger.error("Failed to read config: %s. Exiting...", CONFIG_FILE_PATH)
+        logger.error("Failed to read config: %s. Exiting...", 
+                     CONFIG_FILE_PATH)
         sys.exit(1)
 
     # MQTT configuration
@@ -57,7 +61,8 @@ def main():
     # Subscriber configuration
     subscriber_config = config_data.get("SUBSCRIBER", {})
     SUBSCRIBER_NAME = subscriber_config.get("NAME", "default_subscriber")
-    SUBSCRIBER_DESCRIPTION = subscriber_config.get("DESCRIPTION", "Default MQTT Subscriber")
+    SUBSCRIBER_DESCRIPTION = subscriber_config.get("DESCRIPTION",
+                                                    "Default MQTT Subscriber")
 
     # Topics to subscribe
     topics = config_data.get("TOPICS", [])
@@ -98,6 +103,7 @@ def main():
         logger.error("An error occurred: %s", e)
     finally:
         mqtt_client.disconnect()
+
 
 if __name__ == "__main__":
     main()
