@@ -13,11 +13,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Checkout code
+    # Checkout code with the latest action version
     - name: Checkout code
       uses: actions/checkout@v3
 
-    # Setup Python 3.x environment
+    # Setup Python with the latest action version
     - name: Setup Python 3.x
       uses: actions/setup-python@v3
       with:
@@ -29,33 +29,33 @@ jobs:
         python -m pip install --upgrade pip
         pip install black flake8 pycodestyle
 
-    # Run Black for auto-formatting
+    # Auto-formatting with Black
     - name: Auto-format with Black
       run: |
         black --check .
       continue-on-error: true
 
-    # If Black has formatting suggestions, apply them
+    # Apply auto-formatting with Black if needed
     - name: Apply auto-formatting with Black
       run: |
         black .
       if: failure()
 
-    # Run Flake8 for linting
+    # Linting with Flake8
     - name: Lint with Flake8
       run: |
         flake8 .
       continue-on-error: true
 
-    # Run PEP8 for style checks
+    # Style checking with PEP8 (pycodestyle)
     - name: Check style with PEP8 (pycodestyle)
       run: |
         pycodestyle --max-line-length=180 .
       continue-on-error: true
 
-    # Add and commit changes made by Black
+    # Commit changes made by Black
     - name: Commit changes
-      if: success()
+      if: failure()
       run: |
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
@@ -64,12 +64,12 @@ jobs:
         git push
       continue-on-error: true
 
-    # Manual intervention if linting failed
+    # Manual intervention if linting or formatting failed
     - name: Manual Intervention Required
       if: failure()
       run: echo "Manual intervention required. Review the linting and formatting errors."
 
-    # If all checks passed, indicate it's ready for review/merge
+    # Indicate readiness for review/merge if all checks pass
     - name: Ready for Review/Merge
       if: success()
       run: echo "All checks passed. Ready for review or merge."
