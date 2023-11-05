@@ -1,4 +1,4 @@
-name: Python Checks and Manual Auto-fix
+name: Python Checks and Auto-fix
 
 on:
   push:
@@ -13,54 +13,63 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    # Setup Node.js 16.x
-    - name: Setup Node.js 16.x
-      uses: actions/setup-node@v2
-      with:
-        node-version: '16.x'
-
     # Checkout code
     - name: Checkout code
-      uses: actions/checkout@v2
-
-    # This step will print the working directory and list its contents
-    - name: Debugging working directory
-      run: |
-        pwd
-        ls -al
+      uses: actions/checkout@v3
 
     # Setup Python 3.x environment
-    - name: Setup Python
-      uses: actions/setup-python@v2
+    - name: Setup Python 3.x
+      uses: actions/setup-python@v3
       with:
         python-version: '3.x'
 
     # Install dependencies
     - name: Install dependencies
       run: |
-        pip install black flake8
+        python -m pip install --upgrade pip
+        pip install black flake8 pycodestyle
 
     # Run Black for auto-formatting
     - name: Auto-format with Black
-      run: black --check .
+      run: |
+        black --check .
       continue-on-error: true
+
+    # If Black has formatting suggestions, apply them
+    - name: Apply auto-formatting with Black
+      run: |
+        black .
+      if: failure()
 
     # Run Flake8 for linting
     - name: Lint with Flake8
-      run: flake8
+      run: |
+        flake8 .
       continue-on-error: true
 
     # Run PEP8 for style checks
-    - name: Check style with PEP8
-      run: pycodestyle --max-line-length=180
+    - name: Check style with PEP8 (pycodestyle)
+      run: |
+        pycodestyle --max-line-length=180 .
       continue-on-error: true
 
-    # Manual intervention
-    - name: Manual Intervention
-      run: echo "Manual intervention required if previous steps failed."
-      if: failure()
-
-    # If all is good, prepare for merging (this is a placeholder, implement as needed)
-    - name: Prepare for Merging
-      run: echo "All checks passed. Ready for merging."
+    # Add and commit changes made by Black
+    - name: Commit changes
       if: success()
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add -A
+        git commit -m "Apply Black formatting" -a || echo "No changes to commit"
+        git push
+      continue-on-error: true
+
+    # Manual intervention if linting failed
+    - name: Manual Intervention Required
+      if: failure()
+      run: echo "Manual intervention required. Review the linting and formatting errors."
+
+    # If all checks passed, indicate it's ready for review/merge
+    - name: Ready for Review/Merge
+      if: success()
+      run: echo "All checks passed. Ready for review or merge."
