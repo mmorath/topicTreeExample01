@@ -8,7 +8,7 @@
     },
     "SUBSCRIBER": {
       "NAME": "fit",
-      "DESCRIPTION": "Simulates an IIoT box with various inputs and outputs"
+      "DESCRIPTION": "Simulates an data from the fit server"
     },
     "TOPIC_STRUCTURE": [
       "eh",
@@ -20,179 +20,226 @@
       "fit"
     ],
     "MESSAGES": [
-      {
-        "name": "xHeartbeat",
-        "description": "Heartbeat signal to indicate that the IIoT box is alive",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_alive/xHeartbeat",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xPushButtonIndicatorB",
-        "description": "Status of the blue push button indicator",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xPushButtonIndicatorB",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xPushButtonIndicatorG",
-        "description": "Status of the green push button indicator",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xPushButtonIndicatorG",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xPushButtonIndicatorR",
-        "description": "Status of the red push button indicator",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xPushButtonIndicatorR",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xSignalLampBuzzer",
-        "description": "Status of the signal lamp buzzer",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xSignalLampBuzzer",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xSignalLampSegment01",
-        "description": "Status of signal lamp segment 01",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xSignalLampSegment01",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xSignalLampSegment02",
-        "description": "Status of signal lamp segment 02",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xSignalLampSegment01",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xSignalLampSegment03",
-        "description": "Status of signal lamp segment 03",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xSignalLampSegment04",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xSignalLampSegment04",
-        "description": "Status of signal lamp segment 04",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_ouputs/xSignalLampSegment01",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xDoorSwitch",
-        "description": "Status of the door switch",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_inputs/xDoorSwitch",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xEmergencyStop",
-        "description": "Status of the door switch",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_inputs/xEmergencyStop",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xVoltagePresent",
-        "description": "Status of the door switch",
-        "type": "boolean",
-        "unit": "",
-        "topic": "iiot_box_inputs/xVoltagePresent",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xAutomaticSwitchOff",
-        "description": "Signal indicating if the automatic switch-off has been triggered",
-        "type": "boolean",
-        "unit": "",
-        "topic": "mde_signals/xAutomaticSwitchOff",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xTargetCountReached",
-        "description": "Signal indicating if the target count reached",
-        "type": "boolean",
-        "unit": "",
-        "topic": "mde_signals/xTargetCountReached",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "xMainCircuitSwitchOn",
-        "description": "Signal indicating if the main circuit switch which powers the machine is on or off",
-        "type": "boolean",
-        "unit": "",
-        "topic": "mde_signals/xMainCircuitSwitchOn",
-        "validator": "^[01]$",
-        "min": 0,
-        "max": 1,
-        "default": 0
-      },
-      {
-        "name": "sActualHostName",
-        "description": "Actual host name of the PLC",
-        "type": "string",
-        "unit": "",
-        "topic": "plc_stats/sActualHostName",
-        "validator": ".+",
-        "value": "\"PLCHostName\""
-      }
+        {
+          "name": "MsgDate",
+          "description": "The date of the message",
+          "type": "integer",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "MsgTime",
+          "description": "The time when the message was sent",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "ActNumber",
+          "description": "The action number identifier",
+          "type": "integer",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "Action",
+          "description": "Description of the action taken",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "UserName",
+          "description": "The name of the user",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "UserNumber",
+          "description": "The number identifier of the user",
+          "type": "integer",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "ActCostCntr",
+          "description": "The cost center for the action",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "ActShftmod",
+          "description": "The shift mode during the action",
+          "type": "integer",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "UserCostCntr",
+          "description": "The cost center associated with the user",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "UserShftMod",
+          "description": "The shift mode of the user",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "MachCostCntr",
+          "description": "The cost center for the machine",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "MachShftMod",
+          "description": "The shift mode of the machine",
+          "type": "integer",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "Bereich",
+          "description": "The area or department identifier",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "ActEnde",
+          "description": "Indicates the end of an action",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "NomRstTime",
+          "description": "The nominal reset time",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "ActRstTime",
+          "description": "The actual reset time",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "TPrtIndex",
+          "description": "The part index for tracking",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "TOrdIndex",
+          "description": "The order index for tracking",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "PersFakt",
+          "description": "The personal factor or coefficient",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "OrdrStatus",
+          "description": "The status of the order",
+          "type": "string",
+          "unit": "",
+          "topic": "order/OrdrStatus",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "OrderUnit",
+          "description": "The unit of the order",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        },
+        {
+          "name": "IdentNr",
+          "description": "The identification number",
+          "type": "string",
+          "unit": "",
+          "validator": null,
+          "min": null,
+          "max": null,
+          "default": null
+        }      
     ]
   }
