@@ -1,19 +1,21 @@
 # MQTT Topic Structure Example
 
-Given your specific tag hierarchy, an MQTT topic for a cooling equipment sensor on the machine bystronic01 located in room 035 on the first level of office building n02 in building gb01 in the city ehingen (abbreviated eh) might look like this:
+Given your specific tag hierarchy, an MQTT topic for a cooling equipment sensor
+on the machine bystronic01 located in room 035 on the first level of office
+building n02 in building gb01 in the city ehingen (abbreviated eh) might look like this:
 
 ```bash
 eh/gb01/n02/01/035/bystronic01/cooling
 ```
 Here's what each part of the topic represents:
 
-<b>eh:</b> The city, Ehingen.<br>
-<b>gb01:</b> The building number 1.<br>
-<b>n02:</b> The office building number 2.<br>
-<b>01:</b> The first level of the building.<br>
-<b>035:</b> The room number.<br>
-<b>bystronic01:</b> The machine name and number.<br>
-<b>cooling:</b> The equipment type, in this case, a cooling system.
+* <b>eh:</b> The city, Ehingen.<br>
+* <b>gb01:</b> The building number 1.<br>
+* <b>n02:</b> The office building number 2.<br>
+* <b>01:</b> The first level of the building.<br>
+* <b>035:</b> The room number.<br>
+* <b>bystronic01:</b> The machine name and number.<br>
+* <b>cooling:</b> The equipment type, in this case, a cooling system.
 
 ## Using Wildcards
 
@@ -31,10 +33,12 @@ This would match:
     eh/gb01/n02/01/035/bystronic01/cooling
     eh/gb01/n02/01/036/bystronic01/cooling
 
-And so on, for any room on the first level of office building n02 that has a bystronic01 machine with cooling equipment.
+And so on, for any room on the first level of office building n02 that has
+a bystronic01 machine with cooling equipment.
 Multi-Level Wildcard #
 
-Subscribe to all sensor data related to the machine bystronic01 regardless of its location within building gb01:
+Subscribe to all sensor data related to the machine bystronic01 regardless of
+its location within building gb01:
 
 ```bash
 eh/gb01/#/bystronic01/cooling
@@ -53,9 +57,13 @@ Subscribe to all cooling equipment data within city eh:
 ```bash
 eh/#/cooling
 ```
-This would include cooling data from all buildings, levels, and rooms for any machine within the city of Ehingen.
+This would include cooling data from all buildings, levels, and rooms for any
+machine within the city of Ehingen.
 
-These examples show how MQTT topics and wildcards provide a flexible way to organize and access data across an IIoT environment. By structuring your topics logically and taking advantage of wildcards, you can simplify the process of data subscription and ensure that your clients receive all the relevant information they need.
+These examples show how MQTT topics and wildcards provide a flexible way to
+organize and access data across an IIoT environment. By structuring your topics
+logically and taking advantage of wildcards, you can simplify the process of data 
+subscription and ensure that your clients receive all the relevant information they need.
 
 ## Testing and Simulating the MQTT Topic Structure
 
@@ -74,10 +82,12 @@ Ensure that you have the following prerequisites installed:
 - Docker Compose: [Install Docker Compose](https://docs.docker.com/compose/install/)
 
 ### Step 1: Configure MQTT Broker
+First, you need to have an MQTT broker running and accessible. If you're using
+a public broker or a broker that's already running within your network, 
+make sure you have the connection details.
 
-First, you need to have an MQTT broker running and accessible. If you're using a public broker or a broker that's already running within your network, make sure you have the connection details.
-
-If you need to set up a local MQTT broker, you can do so using Docker. Here's a simple example using `eclipse-mosquitto`:
+If you need to set up a local MQTT broker, you can do so using Docker. 
+Here's a simple example using `eclipse-mosquitto`:
 
 ```yaml
 # docker-compose.yml snippet for MQTT broker
@@ -92,16 +102,15 @@ services:
       - ./mosquitto/data:/mosquitto/data
       - ./mosquitto/log:/mosquitto/log
 ```
-
 Ensure you have the appropriate configuration files in the `./mosquitto/config` directory.
 
 ### Step 2: Configuration Files
-
-Place your configuration JSON files within the `data` directory. Each file should represent a different aspect of the IIoT devices you're simulating.
+Place your configuration JSON files within the `data` directory. Each file 
+should represent a different aspect of the IIoT devices you're simulating.
 
 ### Step 3: Running Docker Compose
-
-Navigate to the directory containing your `docker-compose.yml` file and run the following command:
+Navigate to the directory containing your `docker-compose.yml` file and run the
+following command:
 
 ```bash
 docker-compose up --build
