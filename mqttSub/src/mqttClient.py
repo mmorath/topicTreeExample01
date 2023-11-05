@@ -1,10 +1,9 @@
-import sys
+#!/usr/bin/env python
+# -*- coding:utf-8 -*-
+
 import paho.mqtt.client as mqttPubSub
 import time
 import logging
-import requests
-
-SUBSCRIBER_NAME = "YourSubscriberName"  # Replace with your subscriber name
 
 
 class MQTTClient:
@@ -14,14 +13,15 @@ class MQTTClient:
             mqtt_port,
             mqtt_enable_ssl,
             mqtt_user,
-            mqtt_password):
+            mqtt_password,
+            subscriber_name):
         self.mqtt_host = mqtt_host
         self.mqtt_port = mqtt_port
         self.mqtt_enable_ssl = mqtt_enable_ssl
         self.mqtt_user = mqtt_user
         self.mqtt_password = mqtt_password
         self.client = mqttPubSub.Client(
-            client_id=SUBSCRIBER_NAME,
+            client_id=subscriber_name,
             userdata=None,
             protocol=mqttPubSub.MQTTv5)
         self.flag_connected = False
@@ -64,7 +64,8 @@ class MQTTClient:
         else:
             self.flag_connected = False
             logging.error(
-                'No connection to MQTT host: %s on port: %s, returned result code: %s',
+                'No connection to MQTT host: %s on port: %s,'
+                ' returned result code: %s',
                 self.mqtt_host,
                 self.mqtt_port,
                 str(rc))
@@ -89,7 +90,8 @@ class MQTTClient:
         logging.info("Subscribed: %s %s", str(mid), str(granted_qos))
 
     def on_message(self, client, userdata, msg):
-        """ callback on message for when a PUBLISH message is received from the server """
+        """ callback on message for when a PUBLISH message is received
+        from the server """
         payload = str(msg.payload.decode("utf-8"))
         logging.info(
             'Received topic: %s payload: %s qos: %s retain: %s',
@@ -101,3 +103,18 @@ class MQTTClient:
     def on_log(self, client, userdata, level, buf):
         """ callback for logging """
         logging.debug('%s', buf)
+
+    def publish(self, topic, payload, qos=0, retain=False):
+        """
+        Publish a message to a topic on the MQTT broker.
+        :param topic: The topic to publish to.
+        :param payload: The message payload to publish.
+        :param qos: The Quality of Service level of the message.
+        :param retain: If True, the message will be set as the
+                        "last known good" for the topic.
+        """
+        if self.flag_connected:  # Only attempt to publish if connected
+            self.client.publish(topic, payload, qos, retain)
+        else:
+            logging.error("Cannot publish because the client is not "
+                          "connected.")

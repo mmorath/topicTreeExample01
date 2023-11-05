@@ -75,7 +75,7 @@ def evaluate_message_value(item):
         elif value_type == 'float':
             min_val = item.get('min', 0.0)
             max_val = item.get('max', 100.0)
-            return round(random.uniform(min_val, max_val), 
+            return round(random.uniform(min_val, max_val),
                          item.get('precision', 2))
         else:
             return "Error: Unrecognized type"
@@ -149,8 +149,8 @@ def main():
     logger.info(f"SSL Enabled: {MQTT_ENABLE_SSL}")
     logger.info(f"User: {MQTT_USER}")
     logger.info("Password: [HIDDEN]")
-    logger.info(f"Subscriber Name: {SUBSCRIBER_NAME}")
-    logger.info(f"Subscriber Description: {SUBSCRIBER_DESCRIPTION}")
+    logger.info(f"Publisher Name: {SUBSCRIBER_NAME}")
+    logger.info(f"Publisher Description: {SUBSCRIBER_DESCRIPTION}")
 
     # Topic construction
     topic_components = [

@@ -1,44 +1,37 @@
+# Use an official lightweight Python image.
 FROM python:3.7.3-alpine3.9
 
-# This prevents Python from writing out pyc files
+# Prevents Python from writing pyc files to disc (equivalent to python -B option)
 ENV PYTHONDONTWRITEBYTECODE 1
 
-# This keeps Python from buffering stdin/stdout
+# Prevents Python from buffering stdout and stderr (equivalent to python -u option)
 ENV PYTHONUNBUFFERED 1
 
 # Install necessary packages
-RUN apk update && apk add --no-cache \
-    gfortran \
-    libusb \
-    libusb-dev
+RUN apk update && \
+    apk add --no-cache --virtual .build-deps 
 
-# Upgrade pip
-RUN pip install --no-warn-script-location pip --upgrade
+# Upgrade pip to latest version
+RUN pip install --upgrade pip
 
-# Change working directory to /app
+# Set the working directory to /app
 WORKDIR /app
 
-# Copy requirement files
-COPY  ./src/barcodeReader.py ./src/barcodeReader.py 
-COPY  ./src/main.py ./src/main.py 
-COPY  ./src/mqttClient.py ./src/mqttClient.py 
-COPY  ./src/readConfig.py ./src/readConfig.py 
-COPY  ./src/readLogConfig.py ./src/readLogConfig.py 
-COPY  ./src/requirements.txt ./src/requirements.txt
+# Copy the current directory contents into the container at /app
+COPY ./src/ ./src/
+COPY ./data/ ./data/
 
-# Copy data/config files
-COPY ./data/logger.conf ./data/logger.conf
-COPY ./data/config.json ./data/config.json
+# Install any needed packages specified in requirements.txt
+RUN pip install --no-warn-script-location -r ./src/requirements.txt && \
+    # Remove the virtual build dependencies to reduce image size
+    apk del .build-deps
 
-# Install the requirements
-RUN pip install --no-warn-script-location -r ./src/requirements.txt
-
-# Set the PATH to include the local bin directory
+# Set the PATH to include the local bin directory (if needed)
 ENV PATH="/app/.local/bin:${PATH}"
 
-# Add a label
+# Add metadata to the image to describe that the maintainer is you
 LABEL maintainer="kompass_eng_0x@icloud.com" \
       version="1.0.0"
 
-# Run the application
-CMD [ "python", "./src/main.py" ]
+# Run the application when the container launches
+CMD ["python", "./src/main.py"]
