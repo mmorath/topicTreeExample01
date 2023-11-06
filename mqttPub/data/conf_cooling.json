@@ -3,8 +3,8 @@
     "HOST": "2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud",
     "PORT": 8883,
     "ENABLE_SSL": true,
-    "USER": "user1",
-    "PASSWORD": "password1"
+    "USER": "mqtt_publisher-01",
+    "PASSWORD": "eQZ~Mcb265Em:n,"
   },
   "SUBSCRIBER": {
     "NAME": "cooling",

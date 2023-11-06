@@ -22,15 +22,10 @@ from readConfig import read_configuration
 # Constants
 CONFIG_FILE_PATH = '/app/data/conf.json'
 
+
 # ==============================================================================
 # Main function
 # ==============================================================================
-
-
-def on_message(client, userdata, message):
-    """ Callback function for when a message is received. """
-    payload = str(message.payload.decode("utf-8"))
-    logger.info(f"Message received: topic='{message.topic}' payload='{payload}'")
 
 
 def main():
@@ -41,12 +36,12 @@ def main():
     try:
         config_data = read_configuration(CONFIG_FILE_PATH)
     except json.JSONDecodeError as e:
-        logger.error("Invalid JSON format in config: %s - %s", 
+        logger.error("Invalid JSON format in config: %s - %s",
                      CONFIG_FILE_PATH, e)
         sys.exit(1)
 
     if config_data is None:
-        logger.error("Failed to read config: %s. Exiting...", 
+        logger.error("Failed to read config: %s. Exiting...",
                      CONFIG_FILE_PATH)
         sys.exit(1)
 
@@ -62,14 +57,19 @@ def main():
     subscriber_config = config_data.get("SUBSCRIBER", {})
     SUBSCRIBER_NAME = subscriber_config.get("NAME", "default_subscriber")
     SUBSCRIBER_DESCRIPTION = subscriber_config.get("DESCRIPTION",
-                                                    "Default MQTT Subscriber")
+                                                   "Default MQTT subscriber")
+
+    logger.info("MQTT Configuration:")
+    logger.info(f"Host: {MQTT_HOST}")
+    logger.info(f"Port: {MQTT_PORT}")
+    logger.info(f"SSL Enabled: {MQTT_ENABLE_SSL}")
+    logger.info(f"User: {MQTT_USER}")
+    logger.info("Password: [HIDDEN]")
+    logger.info(f"Subscriber Name: {SUBSCRIBER_NAME}")
+    logger.info(f"Subscriber Description: {SUBSCRIBER_DESCRIPTION}")
 
     # Topics to subscribe
     topics = config_data.get("TOPICS", [])
-
-    logger.info("Starting MQTT Subscriber...")
-    logger.info(f"Subscriber Name: {SUBSCRIBER_NAME}")
-    logger.info(f"Subscriber Description: {SUBSCRIBER_DESCRIPTION}")
 
     mqtt_client = MQTTClient(
         mqtt_host=MQTT_HOST,
@@ -80,7 +80,6 @@ def main():
         subscriber_name=SUBSCRIBER_NAME)
 
     # Set the on_message callback and connect to broker
-    mqtt_client.on_message = on_message
     mqtt_client.connect()
 
     while not mqtt_client.flag_connected:
@@ -94,16 +93,7 @@ def main():
         logger.info(f"Subscribing to topic: {topic} with QoS {qos}")
         mqtt_client.subscribe(topic, qos)
 
-    # Start the network loop
-    try:
-        mqtt_client.loop_forever()
-    except KeyboardInterrupt:
-        logger.info("Keyboard interrupt detected. Exiting...")
-    except Exception as e:
-        logger.error("An error occurred: %s", e)
-    finally:
-        mqtt_client.disconnect()
-
+    mqtt_client.loop_forever()
 
 if __name__ == "__main__":
     main()

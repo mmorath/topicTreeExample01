@@ -189,15 +189,17 @@ def main():
                 mqtt_client.publish(topic=message_topic, payload=payload,
                                     qos=0, retain=False)
 
-                # time.sleep(1)
+                time.sleep(1)
 
             if not mqtt_client.flag_connected:
                 logger.error("Lost connection to broker. Exiting...")
                 break
 
     except KeyboardInterrupt:
+        mqtt_client.disconnect()
         logger.info("Keyboard interrupt detected. Exiting...")
     except Exception as e:
+        mqtt_client.disconnect()
         logger.error("An error occurred: %s", e)
 
 

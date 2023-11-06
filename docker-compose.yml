@@ -13,13 +13,13 @@
 version: "3.0"
 
 services:
-    mqtt_publisher-airpressure:
+    mqtt_publisher-cooling:
         build: ./mqttPub
         hostname: mqtt_publisher
         container_name: mqtt_publisher
         #restart: always
         volumes:
-          - ./mqttPub/data/conf_airpressure.json:/app/data/conf.json
+          - ./mqttPub/data/conf_cooling.json:/app/data/conf.json
         networks:
           - mqtt_network
         logging:
@@ -33,7 +33,7 @@ services:
         container_name: mqtt_subscriber
         #restart: always
         volumes:
-          - ./mqttPub/data/conf_subscription.json:/app/data/conf.json
+          - ./mqttSub/data/conf_subscription.json:/app/data/conf.json
         networks:
           - mqtt_network
         logging:

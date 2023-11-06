@@ -118,3 +118,12 @@ class MQTTClient:
         else:
             logging.error("Cannot publish because the client is not "
                           "connected.")
+
+    def disconnect(self):
+        """ Disconnect from the MQTT broker. """
+        if self.flag_connected:
+            logging.info("Disconnecting from broker")
+            self.client.disconnect()
+            self.flag_connected = False
+        else:
+            logging.warning("Attempted to disconnect when not connected")

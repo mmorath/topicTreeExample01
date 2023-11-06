@@ -3,11 +3,11 @@
     "HOST": "2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud",
     "PORT": 8883,
     "ENABLE_SSL": true,
-    "USER": "mqtt_subscripter-01",
-    "PASSWORD": "eQZ~Mcb265Em:n,"
+    "USER": "mqtt_subscriber-01",
+    "PASSWORD": "K^eY}qV9q@Vv6KQ"
   },
   "SUBSCRIBER": {
-    "NAME": "mqtt_subscripter-01",
+    "NAME": "mqtt_subscriber_example",
     "DESCRIPTION": "simulates air pressure equipment"
   },
   "TOPICS": [
@@ -15,36 +15,6 @@
       "TOPIC": "eh/gb01/n02/01/035/bystronic01/cooling",
       "qos": 1,
       "DESCRIPTION": "Cooling system data for machine bystronic01 located in room 035 on the first level of office building n02 in building gb01."
-    },
-    {
-      "TOPIC": "eh/gb01/n02/01/+/bystronic01/cooling",
-      "qos": 1,
-      "DESCRIPTION": "Cooling system data for any room on the first level of office building n02 for machine bystronic01."
-    },
-    {
-      "TOPIC": "eh/gb01/n02/+/bystronic01/cooling",
-      "qos": 1,
-      "DESCRIPTION": "Cooling system data for machine bystronic01 located on any level of office building n02 in building gb01."
-    },
-    {
-      "TOPIC": "eh/gb01/+/bystronic01/cooling",
-      "qos": 1,
-      "DESCRIPTION": "Cooling system data for machine bystronic01 located in any office within building gb01."
-    },
-    {
-      "TOPIC": "eh/gb01/+/+/cooling",
-      "qos": 1,
-      "DESCRIPTION": "Cooling system data for any machine located in any office within building gb01."
-    },
-    {
-      "TOPIC": "eh/+/+/+/+/cooling",
-      "qos": 1,
-      "DESCRIPTION": "Cooling system data for any machine located in any room, at any level, within any office building in the city of Ehingen."
-    },
-    {
-      "TOPIC": "eh/#",
-      "qos": 1,
-      "DESCRIPTION": "All machine and system data within the city of Ehingen."
     }
   ]
 }
