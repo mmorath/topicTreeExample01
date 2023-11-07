@@ -1,0 +1,1 @@
+FROM emqx/mqttx-web:v1.9.6

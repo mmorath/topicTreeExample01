@@ -1,0 +1,50 @@
+{
+    "name": "node-red-docker",
+    "version": "3.0.2",
+    "description": "Low-code programming for event-driven applications",
+    "homepage": "http://nodered.org",
+    "license": "Apache-2.0",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/node-red/node-red-docker.git"
+    },
+    "private": true,
+    "scripts": {
+        "start": "node $NODE_OPTIONS node_modules/node-red/red.js $FLOWS",
+        "debug": "node --inspect=0.0.0.0:9229 $NODE_OPTIONS node_modules/node-red/red.js $FLOWS",
+        "debug_brk": "node --inspect=0.0.0.0:9229 --inspect-brk $NODE_OPTIONS node_modules/node-red/red.js $FLOWS"
+    },
+    "contributors": [
+        {
+            "name": "Dave Conway-Jones"
+        },
+        {
+            "name": "Nick O'Leary"
+        },
+        {
+            "name": "James Thomas"
+        },
+        {
+            "name": "Raymond Mouthaan"
+        }
+    ],
+    "dependencies": {
+        "node-red": "3.0.2"
+    },
+    "engines": {
+        "node": ">=12"
+    }
+}
+
+{
+    "name": "node-red-project",
+    "description": "A Node-RED Project",
+    "version": "0.0.1",
+    "private": true,
+    "dependencies": {
+        "@wago/node-red-io-api": "~1.0.4",
+        "node-red-contrib-kafka-client": "~0.1.0",
+        "node-red-contrib-kafka_avro_confluent": "~1.0.8",
+        "node-red-contrib-opcua": "~0.2.289"
+    }
+}
