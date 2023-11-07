@@ -10,13 +10,33 @@
 # and so on, purely so that a single docker-compose file can be read as an example to build on, 
 # not use directly. 
 
+# url: 2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud  port:8883
+# publisher: username: mqtt_publisher-01    pw:eQZ~Mcb265Em:n,
+# subscriber: username: mqtt_subscriber-01  pw:K^eY}qV9q@Vv6KQ
+# mqtt-explorer: username: mqtt_explorer    pw:8kliIkn-owlkm-ow
+
 version: "3.0"
 
 services:
-    mqtt_publisher-cooling:
+
+    pup_sub_airpressure:
         build: ./mqttPub
-        hostname: mqtt_publisher
-        container_name: mqtt_publisher
+        hostname: pup_sub_airpressure
+        container_name: pup_sub_airpressure
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_airpressure.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
+
+    pup_sub_cooling:
+        build: ./mqttPub
+        hostname: pup_sub_cooling
+        container_name: pup_sub_cooling
         #restart: always
         volumes:
           - ./mqttPub/data/conf_cooling.json:/app/data/conf.json
@@ -27,19 +47,19 @@ services:
             max-size: "10m"
             max-file: "3"
 
-    mqtt_subscriber:
-        build: ./mqttSub
-        hostname: mqtt_subscriber
-        container_name: mqtt_subscriber
+    pup_sub_exhaust:
+        build: ./mqttPub
+        hostname: pup_sub_exhaust
+        container_name: pup_sub_exhaust
         #restart: always
         volumes:
-          - ./mqttSub/data/conf_subscription.json:/app/data/conf.json
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
         networks:
           - mqtt_network
         logging:
           options:
             max-size: "10m"
-            max-file: "3"
+            max-file: "3"      
 
 networks:
   mqtt_network:

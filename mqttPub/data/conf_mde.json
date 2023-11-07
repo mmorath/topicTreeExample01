@@ -3,8 +3,8 @@
       "HOST": "2fec63f5313749619e6cadcd3272d557.s2.eu.hivemq.cloud",
       "PORT": 8883,
       "ENABLE_SSL": true,
-      "USER": "user1",
-      "PASSWORD": "password1"
+      "USER": "pup_sub_mde",
+      "PASSWORD": "4HrdTd4VE"
     },
     "SUBSCRIBER": {
       "NAME": "mde",
