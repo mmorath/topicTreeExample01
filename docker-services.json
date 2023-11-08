@@ -17,7 +17,7 @@
         "service_name": "pup_sub_cooling",
         "hostname": "pup_sub_cooling",
         "container_name": "pup_sub_cooling",
-        "config_path": "/mqttPub/data/conf_cooling.json",
+        "config_path": "./mqttPub/data/conf_cooling.json",
         "username": "pup_sub_cooling",
         "password": "T1Tv8aRWN"
       },
@@ -25,7 +25,7 @@
         "service_name": "pup_sub_exhaust",
         "hostname": "pup_sub_exhaust",
         "container_name": "pup_sub_exhaust",
-        "config_path": "/mqttPub/data/conf_exhaust.json",
+        "config_path": "./mqttPub/data/conf_exhaust.json",
         "username": "pup_sub_exhaust",
         "password": "G6PG8V22c"
       },
@@ -33,7 +33,7 @@
         "service_name": "pup_sub_fit",
         "hostname": "pup_sub_fit",
         "container_name": "pup_sub_fit",
-        "config_path": "/mqttPub/data/conf_fit.json",
+        "config_path": "./mqttPub/data/conf_fit.json",
         "username": "pup_sub_fit",
         "password": "ZDxrUT9HR"
       },
@@ -41,7 +41,7 @@
         "service_name": "pup_sub_gas",
         "hostname": "pup_sub_gas",
         "container_name": "pup_sub_gas",
-        "config_path": "/mqttPub/data/conf_gas.json",
+        "config_path": "./mqttPub/data/conf_gas.json",
         "username": "pup_sub_gas",
         "password": "SuF14BrY7"
       },
@@ -49,7 +49,7 @@
         "service_name": "pup_sub_iiot_box",
         "hostname": "pup_sub_iiot_box",
         "container_name": "pup_sub_iiot_box",
-        "config_path": "/mqttPub/data/conf_iiot-box.json",
+        "config_path": "./mqttPub/data/conf_iiot_box.json",
         "username": "pup_sub_iiot_box",
         "password": "e4AZnoI8C"
       },
@@ -57,7 +57,7 @@
         "service_name": "pup_sub_mde",
         "hostname": "pup_sub_mde",
         "container_name": "pup_sub_mde",
-        "config_path": "/mqttPub/data/conf_mde.json",
+        "config_path": "./mqttPub/data/conf_mde.json",
         "username": "pup_sub_mde",
         "password": "4HrdTd4VE"
       },
@@ -65,7 +65,7 @@
         "service_name": "pup_sub_mes",
         "hostname": "pup_sub_mes",
         "container_name": "pup_sub_mes",
-        "config_path": "/mqttPub/data/conf_mes.json",
+        "config_path": "./mqttPub/data/conf_mes.json",
         "username": "pup_sub_mes",
         "password": "PH7xb5FI4"
       },
@@ -73,7 +73,7 @@
         "service_name": "pup_sub_power",
         "hostname": "pup_sub_power",
         "container_name": "pup_sub_power",
-        "config_path": "/mqttPub/data/conf_power.json",
+        "config_path": "./mqttPub/data/conf_power.json",
         "username": "pup_sub_power",
         "password": "uyU8fnHX6"
       },
@@ -81,7 +81,7 @@
         "service_name": "pup_sub_scanner",
         "hostname": "pup_sub_scanner",
         "container_name": "pup_sub_scanner",
-        "config_path": "/mqttPub/data/conf_scanner.json",
+        "config_path": "./mqttPub/data/conf_scanner.json",
         "username": "pup_sub_scanner",
         "password": "42mn0kBjd"
       }

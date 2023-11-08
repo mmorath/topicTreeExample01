@@ -61,6 +61,13 @@ def evaluate_message_value(item):
                  constraints.
     :return: Value for the message, or an error string if type is unrecognized.
     """
+    if 'default' in item:
+        return item['default']
+    else:
+        # If there is no 'default', generate a random value
+        return generate_random_value(item)
+
+def generate_random_value(item):
     value_type = item.get('type')
     try:
         if value_type == 'integer':
@@ -75,12 +82,13 @@ def evaluate_message_value(item):
         elif value_type == 'float':
             min_val = item.get('min', 0.0)
             max_val = item.get('max', 100.0)
-            return round(random.uniform(min_val, max_val),
-                         item.get('precision', 2))
+            return round(random.uniform(min_val, max_val), item.get('precision', 2))
         else:
-            return "Error: Unrecognized type"
+            logging.error(f"Unrecognized type: {value_type}")
+            return None  # or raise an exception
     except (KeyError, ValueError, TypeError) as e:
-        return f"Error: {e}"
+        logging.error(f"Error generating value for {item}: {e}")
+        return None  # or raise an exception
 
 # ==============================================================================
 # Function to build a JSON-formatted payload for MQTT messages
@@ -185,7 +193,7 @@ def main():
                 unit = message.get('unit', '')
                 payload = build_topic_payload(message_name, value, unit)
 
-                logger.debug(f"Publishing to {message_topic}: {payload}")
+                #logger.info(f"Publishing to {message_topic}: {payload}")
                 mqtt_client.publish(topic=message_topic, payload=payload,
                                     qos=0, retain=False)
 

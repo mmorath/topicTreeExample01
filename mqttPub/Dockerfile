@@ -7,27 +7,27 @@ ENV PYTHONDONTWRITEBYTECODE 1
 # Prevents Python from buffering stdout and stderr (equivalent to python -u option)
 ENV PYTHONUNBUFFERED 1
 
-# Install necessary packages
-RUN apk update && \
-    apk add --no-cache --virtual .build-deps 
-
-# Upgrade pip to latest version
-RUN pip install --upgrade pip
-
 # Set the working directory to /app
 WORKDIR /app
+
+# Install necessary packages to run build
+RUN apk update && \
+    apk add --no-cache --virtual .build-deps gcc musl-dev
+
+# Upgrade pip to latest version and set up a virtual environment
+RUN python -m venv /venv && \
+    /venv/bin/pip install --upgrade pip
 
 # Copy the current directory contents into the container at /app
 COPY ./src/ ./src/
 COPY ./data/ ./data/
 
-# Install any needed packages specified in requirements.txt
-RUN pip install --no-warn-script-location -r ./src/requirements.txt && \
-    # Remove the virtual build dependencies to reduce image size
+# Install any needed packages specified in requirements.txt into the virtual environment
+RUN /venv/bin/pip install --no-warn-script-location -r ./src/requirements.txt && \
     apk del .build-deps
 
-# Set the PATH to include the local bin directory (if needed)
-ENV PATH="/app/.local/bin:${PATH}"
+# Set the PATH to include the virtualenv bin directory
+ENV PATH="/venv/bin:${PATH}"
 
 # Add metadata to the image to describe that the maintainer is you
 LABEL maintainer="kompass_eng_0x@icloud.com" \

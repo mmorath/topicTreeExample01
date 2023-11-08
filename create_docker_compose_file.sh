@@ -10,6 +10,9 @@ fi
 # The JSON file containing the service configurations
 JSON_FILE="docker-services.json"
 
+# Header for the docker-compose file
+DISCLAIMER="# This file is generated automatically by generate-compose.sh. Do not edit manually.\n"
+
 # The template for the docker-compose services
 read -r -d '' COMPOSE_TEMPLATE << EOM
 version: '3.7'
@@ -22,36 +25,32 @@ while IFS= read -r SERVICE_NAME; do
   HOSTNAME=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .hostname' "$JSON_FILE")
   CONTAINER_NAME=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .container_name' "$JSON_FILE")
   CONFIG_PATH=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .config_path' "$JSON_FILE")
-  USERNAME=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .username' "$JSON_FILE")
-  PASSWORD=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .password' "$JSON_FILE")
 
   # Append each service to the COMPOSE_TEMPLATE
   COMPOSE_TEMPLATE+="
   $CONTAINER_NAME:
+    build: ./mqttPub
     container_name: $CONTAINER_NAME
     hostname: $HOSTNAME
-    image: $CONTAINER_NAME:latest
     volumes:
-      - $CONFIG_PATH:/config
-    environment:
-      - MQTT_USERNAME=$USERNAME
-      - MQTT_PASSWORD=$PASSWORD
+      - $CONFIG_PATH:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
 "
 done < <(jq -r '.services[].service_name' "$JSON_FILE")
 
-# Add common MQTT settings
-MQTT_HOST=$(jq -r '.MQTT.HOST' "$JSON_FILE")
-MQTT_PORT=$(jq -r '.MQTT.PORT' "$JSON_FILE")
-MQTT_ENABLE_SSL=$(jq -r '.MQTT.ENABLE_SSL' "$JSON_FILE")
-
+# Append network configuration to the COMPOSE_TEMPLATE
 COMPOSE_TEMPLATE+="
 networks:
-  default:
-    external:
-      name: my-network
+  mqtt_network:
+    driver: bridge
 "
 
-# Save the template to docker-compose.yml
-echo "$COMPOSE_TEMPLATE" > docker-compose.yml
+# Save the template to docker-compose_generated.yml
+echo -e "$DISCLAIMER$COMPOSE_TEMPLATE" > docker-compose_generated.yml
 
-echo "docker-compose.yml file has been created successfully."
+echo "docker-compose_generated.yml file has been created successfully."
