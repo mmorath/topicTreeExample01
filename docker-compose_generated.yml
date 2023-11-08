@@ -1,0 +1,137 @@
+# This file is generated automatically by generate-compose.sh. Do not edit manually.
+version: '3.7'
+services:
+  pup_sub_airpressure:
+    build: ./mqttPub
+    container_name: pup_sub_airpressure
+    hostname: pup_sub_airpressure
+    volumes:
+      - ./mqttPub/data/conf_airpressure.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_cooling:
+    build: ./mqttPub
+    container_name: pup_sub_cooling
+    hostname: pup_sub_cooling
+    volumes:
+      - ./mqttPub/data/conf_cooling.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_exhaust:
+    build: ./mqttPub
+    container_name: pup_sub_exhaust
+    hostname: pup_sub_exhaust
+    volumes:
+      - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_fit:
+    build: ./mqttPub
+    container_name: pup_sub_fit
+    hostname: pup_sub_fit
+    volumes:
+      - ./mqttPub/data/conf_fit.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_gas:
+    build: ./mqttPub
+    container_name: pup_sub_gas
+    hostname: pup_sub_gas
+    volumes:
+      - ./mqttPub/data/conf_gas.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_iiot_box:
+    build: ./mqttPub
+    container_name: pup_sub_iiot_box
+    hostname: pup_sub_iiot_box
+    volumes:
+      - ./mqttPub/data/conf_iiot_box.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_mde:
+    build: ./mqttPub
+    container_name: pup_sub_mde
+    hostname: pup_sub_mde
+    volumes:
+      - ./mqttPub/data/conf_mde.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_mes:
+    build: ./mqttPub
+    container_name: pup_sub_mes
+    hostname: pup_sub_mes
+    volumes:
+      - ./mqttPub/data/conf_mes.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_power:
+    build: ./mqttPub
+    container_name: pup_sub_power
+    hostname: pup_sub_power
+    volumes:
+      - ./mqttPub/data/conf_power.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+  pup_sub_scanner:
+    build: ./mqttPub
+    container_name: pup_sub_scanner
+    hostname: pup_sub_scanner
+    volumes:
+      - ./mqttPub/data/conf_scanner.json:/app/data/conf.json
+    networks:
+      - mqtt_network
+    logging:
+      options:
+        max-size: '10m'
+        max-file: '3'
+
+networks:
+  mqtt_network:
+    driver: bridge
+

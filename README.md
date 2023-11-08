@@ -153,3 +153,58 @@ Review the logs for any connectivity issues or configuration errors that could b
 Replace `<BROKER_HOST>` and `<BROKER_PORT>` with the actual host and port of your MQTT broker.
 
 Make sure to provide all necessary information about your broker and the `mqttPub` application setup to anyone using this README, so they can replicate the environment and test accordingly.
+
+## Configuration and Setup Files
+
+Our project utilizes Docker containers to manage various services. Configuration for these containers, along with the networking and logging setup, is defined through two primary files:
+docker-services.json
+
+This JSON file serves as the centralized configuration repository for our Docker services. It defines the MQTT broker details and a list of services with their specific configurations.
+
+Structure:
+
+    MQTT: Contains the connection details for the MQTT broker.
+    services: An array of service configurations, where each service includes:
+        service_name: The unique name for the service.
+        hostname: The hostname assigned to the service's container.
+        container_name: The container name used by Docker.
+        config_path: The path to the configuration file for the service.
+        username: The username for connecting to the MQTT broker.
+        password: The password for MQTT broker authentication.
+
+## How to generate the docker-compose.yml file
+
+This file is pivotal for the script create_docker_compose_file.sh to generate the appropriate docker-compose.yml file.
+
+```bash
+create_docker_compose_file.sh
+```
+
+This shell script automates the creation of a docker-compose.yml calle "docker-compose_generated.yml" the file is based on the configurations defined in docker-services.json. It leverages the jq utility to parse JSON data.
+
+Key Features:
+
+1. Reads the docker-services.json configuration.
+2. Dynamically constructs a docker-compose-generated.yml file
+3. Assigns container names, hostnames, and volume mappings for each service.
+4. Sets up network configurations for the Docker environment.
+5. Applies logging options to keep the output manageable and relevant.
+
+Usage:
+
+To generate the docker-compose_generated.yml file, run the script:
+
+```bash
+./create_docker_compose_file.sh
+```
+
+Upon successful execution, docker-compose_generated.yml will be created or overwritten, which can then be used to start the Docker services with the command:
+
+```bash
+docker-compose -f docker-compose_generated.yml up
+```
+
+Do not forget to bring the services down...after testing
+```bash
+docker-compose -f docker-compose_generated.yml down
+```
