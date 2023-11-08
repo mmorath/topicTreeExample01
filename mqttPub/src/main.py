@@ -189,7 +189,7 @@ def main():
                 mqtt_client.publish(topic=message_topic, payload=payload,
                                     qos=0, retain=False)
 
-                #time.sleep(1)
+                time.sleep(1)
 
             if not mqtt_client.flag_connected:
                 logger.error("Lost connection to broker. Exiting...")

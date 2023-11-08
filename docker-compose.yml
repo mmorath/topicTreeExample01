@@ -59,7 +59,91 @@ services:
         logging:
           options:
             max-size: "10m"
-            max-file: "3"      
+            max-file: "3"
+
+    pup_sub_fit:
+        build: ./mqttPub
+        hostname: pup_sub_fit
+        container_name: pup_sub_fit
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
+
+    pup_sub_exhaust:
+        build: ./mqttPub
+        hostname: pup_sub_exhaust
+        container_name: pup_sub_exhaust
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
+
+    pup_sub_exhaust:
+        build: ./mqttPub
+        hostname: pup_sub_exhaust
+        container_name: pup_sub_exhaust
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
+
+    pup_sub_exhaust:
+        build: ./mqttPub
+        hostname: pup_sub_exhaust
+        container_name: pup_sub_exhaust
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
+
+    pup_sub_exhaust:
+        build: ./mqttPub
+        hostname: pup_sub_exhaust
+        container_name: pup_sub_exhaust
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
+
+    pup_sub_exhaust:
+        build: ./mqttPub
+        hostname: pup_sub_exhaust
+        container_name: pup_sub_exhaust
+        #restart: always
+        volumes:
+          - ./mqttPub/data/conf_exhaust.json:/app/data/conf.json
+        networks:
+          - mqtt_network
+        logging:
+          options:
+            max-size: "10m"
+            max-file: "3"
 
 networks:
   mqtt_network:

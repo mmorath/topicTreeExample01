@@ -1,0 +1,57 @@
+#!/bin/bash
+
+# Ensure jq is installed
+if ! command -v jq &> /dev/null
+then
+    echo "jq could not be found. Please install it to proceed."
+    exit 1
+fi
+
+# The JSON file containing the service configurations
+JSON_FILE="docker-services.json"
+
+# The template for the docker-compose services
+read -r -d '' COMPOSE_TEMPLATE << EOM
+version: '3.7'
+services:
+EOM
+
+# Append the services from the JSON file to the docker-compose template
+while IFS= read -r SERVICE_NAME; do
+  # Extract values from JSON using jq
+  HOSTNAME=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .hostname' "$JSON_FILE")
+  CONTAINER_NAME=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .container_name' "$JSON_FILE")
+  CONFIG_PATH=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .config_path' "$JSON_FILE")
+  USERNAME=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .username' "$JSON_FILE")
+  PASSWORD=$(jq -r --arg SERVICE_NAME "$SERVICE_NAME" '.services[] | select(.service_name==$SERVICE_NAME) | .password' "$JSON_FILE")
+
+  # Append each service to the COMPOSE_TEMPLATE
+  COMPOSE_TEMPLATE+="
+  $CONTAINER_NAME:
+    container_name: $CONTAINER_NAME
+    hostname: $HOSTNAME
+    image: $CONTAINER_NAME:latest
+    volumes:
+      - $CONFIG_PATH:/config
+    environment:
+      - MQTT_USERNAME=$USERNAME
+      - MQTT_PASSWORD=$PASSWORD
+"
+done < <(jq -r '.services[].service_name' "$JSON_FILE")
+
+# Add common MQTT settings
+MQTT_HOST=$(jq -r '.MQTT.HOST' "$JSON_FILE")
+MQTT_PORT=$(jq -r '.MQTT.PORT' "$JSON_FILE")
+MQTT_ENABLE_SSL=$(jq -r '.MQTT.ENABLE_SSL' "$JSON_FILE")
+
+COMPOSE_TEMPLATE+="
+networks:
+  default:
+    external:
+      name: my-network
+"
+
+# Save the template to docker-compose.yml
+echo "$COMPOSE_TEMPLATE" > docker-compose.yml
+
+echo "docker-compose.yml file has been created successfully."
